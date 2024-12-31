@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
+[Route("api/v{version:apiVersion}/[controller]/[action]")]
 public class BaseController : ControllerBase;
 
 [Authorize]

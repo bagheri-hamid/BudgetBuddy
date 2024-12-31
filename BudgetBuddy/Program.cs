@@ -1,4 +1,5 @@
 using WebApi.Controllers;
+using BudgetBuddy.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddApplicationPart(typeof(BaseController).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddApisVersioning();
 
 var app = builder.Build();
 
