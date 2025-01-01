@@ -8,6 +8,7 @@ builder.Services.AddControllers().AddApplicationPart(typeof(BaseController).Asse
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
 builder.Services.AddApisVersioning();
+builder.Services.AddServiceConfigs(builder.Configuration);
 
 var app = builder.Build();
 
