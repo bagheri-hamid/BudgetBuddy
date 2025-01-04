@@ -9,8 +9,9 @@ public static class ServiceExtension
     {
         services
             .AddInfrastructureServices(configuration)
-            .AddApplicationsServices();
-
+            .AddApplicationsServices()
+            .AddAutoMapper(typeof(WebApi.AssemblyReference).Assembly);
+        
         return services;
     }
 }
