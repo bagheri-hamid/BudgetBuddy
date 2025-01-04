@@ -10,4 +10,8 @@
       <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Core.Application\Core.Application.csproj" />
+    </ItemGroup>
+
 </Project>
