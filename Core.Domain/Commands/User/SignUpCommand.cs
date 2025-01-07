@@ -1,8 +1,13 @@
-﻿using MediatR;
+﻿using Core.Domain.Responses.User;
+using MediatR;
 
 namespace Core.Domain.Commands.User;
 
-public class SignUpCommand : IRequest<string>
-{
-    
-}
+/// <summary>
+/// Command to create a new user.
+/// </summary>
+public record SignUpCommand(
+    string Username,
+    string? FullName,
+    string Email,
+    string Password) : IRequest<SignUpResponse>;
