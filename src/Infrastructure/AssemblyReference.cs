@@ -1,3 +1,3 @@
-﻿namespace Core.Application;
+﻿namespace Infrastructure;
 
 public class AssemblyReference;
