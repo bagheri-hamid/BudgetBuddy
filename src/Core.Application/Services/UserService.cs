@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using Core.Application.Interfaces;
 using Core.Domain.Entities;
 using Core.Domain.Responses.User;
@@ -7,7 +8,8 @@ namespace Core.Application.Services;
 public class UserService(
     IUserRepository userRepository,
     IEmailValidator emailValidator,
-    IPasswordHasher passwordHasher
+    IPasswordHasher passwordHasher,
+    IJwtService jwtService
 ) : IUserService, IScopedDependency
 {
     public async Task<SignUpResponse> SignUp(
@@ -61,5 +63,17 @@ public class UserService(
             JwtToken = null,
             SessionId = null
         };
+    }
+
+    public async Task<LoginResponse> Login(string username, string password)
+    {
+        var user = await userRepository.FindOneAsync(user => user.Username == username );
+        
+        if (user == null || !passwordHasher.Verify(user.Password, password))
+            throw new AuthenticationException("Invalid credentials");
+
+        var token = jwtService.GenerateToken(user);
+
+        return new LoginResponse(token);
     }
 }

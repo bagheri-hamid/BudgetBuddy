@@ -4,5 +4,6 @@ namespace Core.Application.Interfaces;
 
 public interface IUserService
 {
-    public Task<SignUpResponse> SignUp(string username, string? fullName, string email, string password);
+    Task<SignUpResponse> SignUp(string username, string? fullName, string email, string password);
+    Task<LoginResponse> Login(string username, string password);
 }

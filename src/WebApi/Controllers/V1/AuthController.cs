@@ -6,8 +6,11 @@ namespace WebApi.Controllers.V1;
 
 public class AuthController(IMediator mediator) : BaseController
 {
-    [HttpGet]
-    public IActionResult Login() => Ok();
+    [HttpPost]
+    public async Task<IActionResult> Login([FromBody] LoginCommand command)
+    {
+        return Ok(await mediator.Send(command));
+    }
 
     [HttpPost]
     public async Task<IActionResult> SignUp([FromBody] SignUpCommand command)
