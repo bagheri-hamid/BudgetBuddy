@@ -1,6 +1,7 @@
 using System.Security.Authentication;
 using Core.Application.Interfaces;
 using Core.Domain.Entities;
+using Core.Domain.Exceptions;
 using Core.Domain.Responses.User;
 
 namespace Core.Application.Services;
@@ -20,23 +21,23 @@ public class UserService(
     {
         // Input validation
         if (string.IsNullOrWhiteSpace(username))
-            throw new ArgumentException("Username is required", nameof(username));
+            throw new InvalidUsernameInSignUpException();
 
         if (!emailValidator.IsValid(email))
-            throw new ArgumentException("Invalid email format", nameof(email));
+            throw new InvalidEmailFormatException();
 
         // Check existing users
         var existingUser = await userRepository.FindOneAsync(user => user.Username == username);
         if (existingUser is not null)
-            throw new Exception("Username has already taken");
+            throw new UsernameHasAlreadyTakenException();
 
         var existingEmail = await userRepository.FindOneAsync(user => user.Email == email);
         if (existingEmail is not null)
-            throw new Exception("Email has already registered!");
+            throw new EmailHasBeenRegisteredException();
 
         // Password requirements
         if (password.Length < 8)
-            throw new Exception("Password must be at least 8 characters");
+            throw new InvalidPasswordLengthException(8);
 
         // Hash password
         var passwordHash = passwordHasher.Hash(password);
@@ -68,9 +69,9 @@ public class UserService(
     public async Task<LoginResponse> Login(string username, string password)
     {
         var user = await userRepository.FindOneAsync(user => user.Username == username );
-        
+
         if (user == null || !passwordHasher.Verify(user.Password, password))
-            throw new AuthenticationException("Invalid credentials");
+            throw new InvalidUsernameOrPasswordException();
 
         var token = jwtService.GenerateToken(user);
 
