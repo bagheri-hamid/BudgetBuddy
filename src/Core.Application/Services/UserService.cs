@@ -1,4 +1,3 @@
-using System.Security.Authentication;
 using Core.Application.Interfaces;
 using Core.Domain.Entities;
 using Core.Domain.Exceptions;
@@ -49,8 +48,6 @@ public class UserService(
             FullName = fullName?.Trim(),
             Email = email.ToLowerInvariant(),
             Password = passwordHash,
-            CreatedDate = DateTime.UtcNow,
-            LastModifiedDate = null
         };
 
         await userRepository.AddAsync(user);
@@ -68,7 +65,7 @@ public class UserService(
 
     public async Task<LoginResponse> Login(string username, string password)
     {
-        var user = await userRepository.FindOneAsync(user => user.Username == username );
+        var user = await userRepository.FindOneAsync(user => user.Username == username);
 
         if (user == null || !passwordHasher.Verify(user.Password, password))
             throw new InvalidUsernameOrPasswordException();
