@@ -12,6 +12,7 @@ builder.Services.AddConfiguration(builder.Configuration);
 builder.Services.ConfigureServices(builder.Configuration);
 builder.Services.AddAuthentication(builder.Configuration);
 builder.Services.AddAuthorization();
+builder.Services.ConfigureApiBehavior();
 
 var app = builder.Build();
 
