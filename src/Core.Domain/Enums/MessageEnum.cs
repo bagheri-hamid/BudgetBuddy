@@ -4,6 +4,7 @@ namespace Core.Domain.Enums;
 
 public enum MessageEnum  // Central message catalog  
 {  
+    [Description("Successful")]
     Success,                // Standard success scenarios  
     CreatedSuccessfully,    // Resource creation  
     UpdatedSuccessfully,    // Update operations  
