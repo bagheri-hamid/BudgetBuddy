@@ -6,5 +6,5 @@ public record CategoryViewModel(
     Guid? ParentCategoryId,
     Guid UserId,
     DateTime CreatedAt,
-    DateTime UpdatedAt
+    DateTime? UpdatedAt
 );
