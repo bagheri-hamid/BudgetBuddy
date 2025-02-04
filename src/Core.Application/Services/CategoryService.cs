@@ -4,7 +4,7 @@ using Core.Domain.Exceptions;
 
 namespace Core.Application.Services;
 
-public class CategoryService(IRepository<Category> categoryRepository) : ICategoryService, IScopedDependency
+public class CategoryService(ICategoryRepository categoryRepository) : ICategoryService, IScopedDependency
 {
     public async Task<Category> CreateCategoryAsync(string name, Guid? parentCategoryId, Guid userId)
     {
