@@ -37,8 +37,8 @@ public enum MessageEnum  // Central message catalog
     [Description("Invalid Username or Password.")]
     InvalidUsernameOrPassword,
     
-    [Description("Name can't be empty.")]
-    NameIsEmpty,
+    [Description("{0} can't be empty.")]
+    FiledIsEmpty,
     
     [Description("Parent category not found!")]
     ParentCategoryNotFound
