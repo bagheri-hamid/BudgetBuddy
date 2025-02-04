@@ -5,10 +5,16 @@ namespace Core.Domain.Enums;
 public enum MessageEnum  // Central message catalog  
 {  
     [Description("Successful")]
-    Success,                // Standard success scenarios  
-    CreatedSuccessfully,    // Resource creation  
-    UpdatedSuccessfully,    // Update operations  
-    DeletedSuccessfully,    // Delete operations  
+    Success,
+    
+    [Description("Created successfully")] 
+    CreatedSuccessfully,  
+    
+    [Description("Updated successfully")]
+    UpdatedSuccessfully,
+    
+    [Description("Deleted successfully")]
+    DeletedSuccessfully,  
     
     [Description("Unexpected error")]
     UnexpectedError,
