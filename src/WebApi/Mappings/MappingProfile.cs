@@ -11,5 +11,6 @@ public class MappingProfile : Profile
      public MappingProfile()
      {
           CreateMap<Category, CategoryViewModel>();
+          CreateMap<Account, AccountViewModel>();
      }
 }

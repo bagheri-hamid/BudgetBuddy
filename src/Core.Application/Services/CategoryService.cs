@@ -9,7 +9,7 @@ public class CategoryService(ICategoryRepository categoryRepository) : ICategory
     public async Task<Category> CreateCategoryAsync(string name, Guid? parentCategoryId, Guid userId)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new EmptyNameException();
+            throw new EmptyFiledException(nameof(Category.Name));
 
         if (parentCategoryId != null)
         {
