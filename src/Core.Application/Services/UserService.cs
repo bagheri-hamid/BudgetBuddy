@@ -1,7 +1,7 @@
 using Core.Application.Interfaces;
+using Core.Domain.Dtos.Auth;
 using Core.Domain.Entities;
 using Core.Domain.Exceptions;
-using Core.Domain.Responses.User;
 
 namespace Core.Application.Services;
 
@@ -53,14 +53,9 @@ public class UserService(
         await userRepository.AddAsync(user);
         await userRepository.SaveChangesAsync();
 
-        return new SignUpResponse
-        {
-            IsSuccess = true,
-            Message = null,
-            UserId = user.Id,
-            JwtToken = null,
-            SessionId = null
-        };
+        var token = jwtService.GenerateToken(user);
+        
+        return new SignUpResponse(user.Id, token);
     }
 
     public async Task<LoginResponse> Login(string username, string password)

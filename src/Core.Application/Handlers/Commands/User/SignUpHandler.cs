@@ -1,6 +1,6 @@
 ﻿using Core.Application.Interfaces;
 using Core.Domain.Commands.User;
-using Core.Domain.Responses.User;
+using Core.Domain.Dtos.Auth;
 using MediatR;
 
 namespace Core.Application.Handlers.Commands.User;

@@ -1,6 +1,9 @@
 ﻿using Core.Domain.Commands.User;
+using Core.Domain.Enums;
+using Core.Domain.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Helpers;
 
 namespace WebApi.Controllers.V1;
 
@@ -9,12 +12,26 @@ public class AuthController(IMediator mediator) : BaseController
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] LoginCommand command)
     {
-        return Ok(await mediator.Send(command));
+        var result = await mediator.Send(command);
+        
+        return ResponseHelper.CreateResponse(
+            200,
+            MessageEnum.Success.GetDescription(),
+            true,
+            result
+        );
     }
 
     [HttpPost]
     public async Task<IActionResult> SignUp([FromBody] SignUpCommand command)
     {
-        return Ok(await mediator.Send(command));
+        var result = await mediator.Send(command);
+        
+        return ResponseHelper.CreateResponse(
+            201,
+            MessageEnum.CreatedSuccessfully.GetDescription(),
+            true,
+            result
+        );
     }
 }

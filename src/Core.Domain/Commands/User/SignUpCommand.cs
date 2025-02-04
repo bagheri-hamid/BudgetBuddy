@@ -1,4 +1,4 @@
-﻿using Core.Domain.Responses.User;
+﻿using Core.Domain.Dtos.Auth;
 using MediatR;
 
 namespace Core.Domain.Commands.User;
