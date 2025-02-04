@@ -1,11 +1,12 @@
 ﻿using System.Linq.Expressions;
 using Core.Application.Interfaces;
+using Core.Domain.Entities;
 using Infrastructure.Data.EF;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class Repository<T>(ApplicationDbContext context) : IRepository<T> where T : class
+public class Repository<T>(ApplicationDbContext context) : IRepository<T> where T : BaseEntity
 {
     protected readonly DbSet<T> DbSet = context.Set<T>();
     
@@ -115,5 +116,27 @@ public class Repository<T>(ApplicationDbContext context) : IRepository<T> where 
     public async Task SaveChangesAsync()
     {
         await context.SaveChangesAsync();
+    }
+    
+    /// <summary>
+    /// Checks whether any non-deleted entity in the database set matches the specified predicate.
+    /// </summary>
+    /// <typeparam name="T">The entity type.</typeparam>
+    /// <param name="predicate">A function to test each entity for a condition.</param>
+    /// <returns>
+    /// <see langword="true"/> if any non-deleted entity in the database set matches the predicate; 
+    /// otherwise, <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    /// This method filters out soft-deleted entities (where <see cref="IsDeleted"/> is <see langword="true"/>)
+    /// before applying the provided predicate to ensure only active entities are considered.
+    /// </remarks>
+    public async Task<bool> IsExists(Expression<Func<T, bool>> predicate)
+    {
+        var query = DbSet.AsQueryable();
+        
+        query = query.Where(c => c.IsDeleted == false);
+        
+        return await query.AnyAsync(predicate);
     }
 }
