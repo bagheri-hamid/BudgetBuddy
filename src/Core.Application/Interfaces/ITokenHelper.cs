@@ -2,5 +2,5 @@
 
 public interface ITokenHelper
 {
-    
+    Guid GetUserId();
 }

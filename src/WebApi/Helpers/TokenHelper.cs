@@ -6,7 +6,7 @@ namespace WebApi.Helpers;
 
 public class TokenHelper(IHttpContextAccessor httpContextAccessor) : ITokenHelper, IScopedDependency
 {
-    public async Task<Guid> GetUserIdAsync()
+    public Guid GetUserId()
     {
         var userIdStr = GetClaim(ClaimTypes.NameIdentifier);
         
