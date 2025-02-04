@@ -35,5 +35,11 @@ public enum MessageEnum  // Central message catalog
     InvalidPasswordLength,
     
     [Description("Invalid Username or Password.")]
-    InvalidUsernameOrPassword
+    InvalidUsernameOrPassword,
+    
+    [Description("Name can't be empty.")]
+    NameIsEmpty,
+    
+    [Description("Parent category not found!")]
+    ParentCategoryNotFound
 } 
