@@ -25,24 +25,11 @@ public class Repository<T>(ApplicationDbContext context) : IRepository<T> where 
     /// </summary>
     /// <param name="id">The ID of the entity to retrieve.</param>
     /// <returns>The entity of type T with the specified ID.</returns>
-    public async Task<T?> GetByIdAsync(object id)
-    {
-        var entity = await DbSet.FindAsync(id);
-
-        return entity;
-    }
-
-    /// <summary>
-    /// Retrieves an entity by its ID.
-    /// Throws an exception if the entity is not found.
-    /// </summary>
-    /// <param name="id">The ID of the entity to retrieve.</param>
-    /// <returns>The entity of type T with the specified ID.</returns>
     public async Task<T?> GetByIdAsync(Guid id)
     {
-        var entity = await DbSet.FindAsync(id);
-
-        return entity;
+        var query = DbSet.AsQueryable();
+        
+        return await query.FirstOrDefaultAsync(c => c.Id == id && c.IsDeleted == false);
     }
     
     /// <summary>
