@@ -8,14 +8,14 @@ public static class ScrutorConfigurationExtensions
     {
         // Scoped Dependency Registrations
         services.Scan(scan => scan
-            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference))
+            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference), typeof(WebApi.AssemblyReference))
             .AddClasses(classes => classes.AssignableTo<IScopedDependency>())
             .AsSelfWithInterfaces()
             .WithScopedLifetime()
         );
 
         services.Scan(scan => scan
-            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference))
+            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference), typeof(WebApi.AssemblyReference))
             .AddClasses(classes => classes.AssignableTo<IScopedDependencyAsSelf>())
             .AsSelfWithInterfaces()
             .WithScopedLifetime()
@@ -23,7 +23,7 @@ public static class ScrutorConfigurationExtensions
 
         // Singleton Dependency Registrations (Self)
         services.Scan(scan => scan
-            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference))
+            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference), typeof(WebApi.AssemblyReference))
             .AddClasses(classes => classes.AssignableTo<ISingletonDependencySelf>())
             .AsSelf()
             .WithSingletonLifetime()
@@ -31,7 +31,7 @@ public static class ScrutorConfigurationExtensions
 
         // Transient Dependency Registrations
         services.Scan(scan => scan
-            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference))
+            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference), typeof(WebApi.AssemblyReference))
             .AddClasses(classes => classes.AssignableTo<ITransientDependency>())
             .AsSelfWithInterfaces()
             .WithTransientLifetime()
@@ -39,7 +39,7 @@ public static class ScrutorConfigurationExtensions
 
         // Singleton Dependency Registrations
         services.Scan(scan => scan
-            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference))
+            .FromAssembliesOf(typeof(Core.Application.AssemblyReference), typeof(Infrastructure.AssemblyReference), typeof(WebApi.AssemblyReference))
             .AddClasses(classes => classes.AssignableTo<ISingletonDependency>())
             .AsSelfWithInterfaces()
             .WithSingletonLifetime()
