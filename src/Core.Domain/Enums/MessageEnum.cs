@@ -25,7 +25,7 @@ public enum MessageEnum  // Central message catalog
     [Description("Email has already registered.")]
     EmailHasBeenRegistered,
     
-    [Description("Password lenght must be more than {0} characters.")]
+    [Description("Password length must be more than {0} characters.")]
     InvalidPasswordLength,
     
     [Description("Invalid Username or Password.")]
