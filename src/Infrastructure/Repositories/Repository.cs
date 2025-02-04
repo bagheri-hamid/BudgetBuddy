@@ -131,7 +131,7 @@ public class Repository<T>(ApplicationDbContext context) : IRepository<T> where 
     /// This method filters out soft-deleted entities (where <see cref="IsDeleted"/> is <see langword="true"/>)
     /// before applying the provided predicate to ensure only active entities are considered.
     /// </remarks>
-    public async Task<bool> IsExists(Expression<Func<T, bool>> predicate)
+    public async Task<bool> IsExistsAsync(Expression<Func<T, bool>> predicate)
     {
         var query = DbSet.AsQueryable();
         

@@ -14,4 +14,5 @@ public interface IRepository<T> where T : class
     void Remove(T entity);
     void RemoveRange(IEnumerable<T> entities);
     Task SaveChangesAsync();
+    Task<bool> IsExistsAsync(Expression<Func<T, bool>> predicate);
 }
