@@ -5,9 +5,9 @@ using MediatR;
 
 namespace Core.Application.Handlers.Commands.Category;
 
-public class UpdateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<UpdateCategoryCommand, Unit>
+public class UpdateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<UpdateCategoryCommand, Domain.Entities.Category>
 {
-    public async Task<Unit> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.Category> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = await categoryRepository.FindOneAsync(c => c.Id == request.Id && c.UserId == tokenHelper.GetUserId());
 
@@ -18,6 +18,6 @@ public class UpdateCategoryHandler(ICategoryRepository categoryRepository, IToke
         
         await categoryRepository.SaveChangesAsync();
         
-        return Unit.Value;
+        return category;
     }
 }

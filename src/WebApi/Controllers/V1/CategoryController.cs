@@ -19,4 +19,13 @@ public class CategoryController(IMediator mediator, IMapper mapper) : Authorized
 
         return ResponseHelper.CreateResponse(201, MessageEnum.CreatedSuccessfully.GetDescription(), true, categoryViewModel);
     }
+    
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] UpdateCategoryCommand command)
+    {
+        var category = await mediator.Send(command);
+        var categoryViewModel = mapper.Map<CategoryViewModel>(category);
+
+        return ResponseHelper.CreateResponse(200, MessageEnum.UpdatedSuccessfully.GetDescription(), true, categoryViewModel);
+    }
 }
