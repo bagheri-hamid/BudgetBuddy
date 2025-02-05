@@ -30,12 +30,12 @@ public class CategoryController(IMediator mediator, IMapper mapper) : Authorized
         return ResponseHelper.CreateResponse(200, MessageEnum.UpdatedSuccessfully.GetDescription(), true, categoryViewModel);
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> Delete([FromBody] DeleteCategoryCommand command)
+    [HttpDelete("{id:Guid}")]
+    public async Task<IActionResult> Delete(Guid id)
     {
-        await mediator.Send(command);
+        await mediator.Send(new DeleteCategoryCommand(id));
         
-        return ResponseHelper.CreateResponse<object>(204, MessageEnum.DeletedSuccessfully.GetDescription(), true);
+        return ResponseHelper.CreateResponse<object>(202, MessageEnum.DeletedSuccessfully.GetDescription(), true);
     }
 
     [HttpGet]
