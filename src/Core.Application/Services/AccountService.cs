@@ -42,7 +42,7 @@ public class AccountService(IAccountRepository accountRepository) : IAccountServ
         var account = await accountRepository.GetByIdAsync(accountId);
     
         if (account == null)
-            throw new AccountNotFoundException();
+            throw new ObjectNotFoundException("Account");
         
         account.Name = name;
         account.Type = type;

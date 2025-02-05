@@ -20,7 +20,7 @@ public class EmptyFiledException : DomainException
 
 public class ObjectNotFoundException : DomainException
 {
-    public ObjectNotFoundException(string objectName) : base(string.Format(Enums.MessageEnum.ObjectNotFound.GetDescription(), objectName))
+    public ObjectNotFoundException(string objectName) : base(string.Format(MessageEnum.ObjectNotFound.GetDescription(), objectName))
     {
         StatusCode = 404;
         MessageEnum = MessageEnum.ObjectNotFound;
