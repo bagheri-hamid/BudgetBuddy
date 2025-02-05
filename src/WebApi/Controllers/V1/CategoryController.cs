@@ -2,6 +2,7 @@
 using Core.Domain.Commands.Category;
 using Core.Domain.Enums;
 using Core.Domain.Extensions;
+using Core.Domain.Queries.Category;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Helpers;
@@ -35,5 +36,14 @@ public class CategoryController(IMediator mediator, IMapper mapper) : Authorized
         await mediator.Send(command);
         
         return ResponseHelper.CreateResponse<object>(204, MessageEnum.DeletedSuccessfully.GetDescription(), true);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] GetAllCategoriesQuery query)
+    {
+        var categories = await mediator.Send(query);
+        var categoriesViewModel = mapper.Map<List<CategoryViewModel>>(categories);
+
+        return ResponseHelper.CreateSuccessResponse(categoriesViewModel);
     }
 }
