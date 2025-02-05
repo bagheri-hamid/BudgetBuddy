@@ -46,4 +46,13 @@ public class CategoryController(IMediator mediator, IMapper mapper) : Authorized
 
         return ResponseHelper.CreateSuccessResponse(categoriesViewModel);
     }
+    
+    [HttpGet("{id:Guid}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var category = await mediator.Send(new GetCategoryByIdQuery(id));
+        var categoryViewModel = mapper.Map<CategoryViewModel>(category);
+
+        return ResponseHelper.CreateSuccessResponse(categoryViewModel);
+    }
 }
