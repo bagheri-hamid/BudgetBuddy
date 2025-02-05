@@ -17,3 +17,12 @@ public class EmptyFiledException : DomainException
         MessageEnum = MessageEnum.FiledIsEmpty;
     }
 }
+
+public class ObjectNotFoundException : DomainException
+{
+    public ObjectNotFoundException(string objectName) : base(string.Format(Enums.MessageEnum.ObjectNotFound.GetDescription(), objectName))
+    {
+        StatusCode = 404;
+        MessageEnum = MessageEnum.ObjectNotFound;
+    }
+}
