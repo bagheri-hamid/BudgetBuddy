@@ -28,4 +28,12 @@ public class CategoryController(IMediator mediator, IMapper mapper) : Authorized
 
         return ResponseHelper.CreateResponse(200, MessageEnum.UpdatedSuccessfully.GetDescription(), true, categoryViewModel);
     }
+
+    [HttpDelete]
+    public async Task<IActionResult> Delete([FromBody] DeleteCategoryCommand command)
+    {
+        await mediator.Send(command);
+        
+        return ResponseHelper.CreateResponse<object>(204, MessageEnum.DeletedSuccessfully.GetDescription(), true);
+    }
 }
