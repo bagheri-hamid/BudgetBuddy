@@ -27,4 +27,30 @@ public class AccountService(IAccountRepository accountRepository) : IAccountServ
         
         return account;
     }
+
+    public async Task<Account> UpdateAccountAsync(Guid accountId, string name, string type, long balance, Guid userId)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new EmptyFiledException(nameof(Account.Name));
+
+        if (string.IsNullOrWhiteSpace(type))
+            throw new EmptyFiledException(nameof(Account.Type));
+        
+        if (balance < 0)
+            throw new InvalidValueException(nameof(Account.Balance));
+
+        var account = await accountRepository.GetByIdAsync(accountId);
+    
+        if (account == null)
+            throw new AccountNotFoundException();
+        
+        account.Name = name;
+        account.Type = type;
+        account.Balance = balance;
+        account.UpdatedAt = DateTime.UtcNow;
+        
+        await accountRepository.SaveChangesAsync();
+
+        return account;
+    }
 }
