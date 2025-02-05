@@ -9,7 +9,7 @@ namespace WebApi.Controllers.V1;
 
 public class AuthController(IMediator mediator) : BaseController
 {
-    [HttpPost]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginCommand command)
     {
         var result = await mediator.Send(command);
@@ -22,7 +22,7 @@ public class AuthController(IMediator mediator) : BaseController
         );
     }
 
-    [HttpPost]
+    [HttpPost("SignUp")]
     public async Task<IActionResult> SignUp([FromBody] SignUpCommand command)
     {
         var result = await mediator.Send(command);
