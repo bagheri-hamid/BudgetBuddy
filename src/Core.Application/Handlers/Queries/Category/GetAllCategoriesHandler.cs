@@ -11,7 +11,13 @@ public class GetAllCategoriesHandler(
 {
     public async Task<List<Domain.Entities.Category>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var categories = await categoryRepository.FindAsync(c => c.UserId == tokenHelper.GetUserId(), request.Offset, request.Limit);
+        var categories = await categoryRepository.FindAsync(
+            c =>
+                c.UserId == tokenHelper.GetUserId() &&
+                (string.IsNullOrWhiteSpace(request.Name) || c.Name == request.Name),
+            request.Offset,
+            request.Limit
+        );
         return categories;
     }
 }
