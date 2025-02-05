@@ -19,4 +19,13 @@ public class AccountController(IMediator mediator, IMapper mapper) : AuthorizedC
 
         return ResponseHelper.CreateResponse(201, MessageEnum.CreatedSuccessfully.GetDescription(), true, accountViewModel);
     }
+    
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] UpdateAccountCommand command)
+    {
+        var account = await mediator.Send(command);
+        var accountViewModel = mapper.Map<AccountViewModel>(account);
+
+        return ResponseHelper.CreateResponse(201, MessageEnum.UpdatedSuccessfully.GetDescription(), true, accountViewModel);
+    }
 }

@@ -45,4 +45,8 @@ public enum MessageEnum  // Central message catalog
     
     [Description("{0} not found!")]
     ObjectNotFound,
+    
+    [Description("Value of {0} is invalid.")]
+    ValueIsInvalid,
+    
 } 
