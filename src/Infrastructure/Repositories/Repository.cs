@@ -31,15 +31,23 @@ public class Repository<T>(ApplicationDbContext context) : IRepository<T> where 
         
         return await query.FirstOrDefaultAsync(c => c.Id == id && c.IsDeleted == false);
     }
-    
+
     /// <summary>
-    /// Finds entities that match the given predicate.
+    /// Asynchronously retrieves a paginated list of non-deleted entities matching the specified predicate.
     /// </summary>
-    /// <param name="predicate">The condition to filter entities.</param>
-    /// <returns>A list of entities that match the predicate.</returns>
-    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    /// <param name="predicate">A condition to filter entities.</param>
+    /// <param name="offset">The number of entities to skip (default: 0).</param>
+    /// <param name="limit">The maximum number of entities to return (default: 100).</param>
+    /// <returns>A task representing the asynchronous operation, containing an <see cref="IEnumerable{T}"/> of matching non-deleted entities.</returns>
+    /// <remarks>
+    /// This method automatically filters out entities where <see cref="BaseEntity.IsDeleted"/> is <c>true</c> and applies pagination using the provided <paramref name="offset"/> and <paramref name="limit"/>.
+    /// </remarks>
+    public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate, int offset = 0, int limit = 100)
     {
-        return await DbSet.Where(predicate).ToListAsync();
+        var query = DbSet.AsQueryable();
+        query = query.Where(c => c.IsDeleted == false);
+        
+        return await query.Where(predicate).Skip(offset).Take(limit).ToListAsync();
     }
     
     /// <summary>
@@ -118,7 +126,7 @@ public class Repository<T>(ApplicationDbContext context) : IRepository<T> where 
     /// otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    /// This method filters out soft-deleted entities (where <see cref="IsDeleted"/> is <see langword="true"/>)
+    /// This method filters out soft-deleted entities (where <see cref="BaseEntity.IsDeleted"/> is <see langword="true"/>)
     /// before applying the provided predicate to ensure only active entities are considered.
     /// </remarks>
     public async Task<bool> IsExistsAsync(Expression<Func<T, bool>> predicate)
