@@ -43,9 +43,10 @@ public enum MessageEnum  // Central message catalog
     [Description("Parent category not found!")]
     ParentCategoryNotFound,
     
+    [Description("{0} not found!")]
+    ObjectNotFound,
+    
     [Description("Value of {0} is invalid.")]
     ValueIsInvalid,
     
-    [Description("Account not found!.")]
-    AccountNotFound,
 } 
