@@ -49,7 +49,10 @@ public class Repository<T>(ApplicationDbContext context) : IRepository<T> where 
     /// <returns>A list of entities that match the predicate.</returns>
     public async Task<T?> FindOneAsync(Expression<Func<T, bool>> predicate)
     {
-        return await DbSet.Where(predicate).FirstOrDefaultAsync();
+        var query = DbSet.AsQueryable();
+        query = query.Where(c => c.IsDeleted == false);
+        
+        return await query.Where(predicate).FirstOrDefaultAsync();
     }
     
     /// <summary>
