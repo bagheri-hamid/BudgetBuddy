@@ -17,3 +17,12 @@ public class EmptyFiledException : DomainException
         MessageEnum = MessageEnum.FiledIsEmpty;
     }
 }
+
+public class InvalidValueException : DomainException
+{
+    public InvalidValueException(string filedName) : base(string.Format(MessageEnum.ValueIsInvalid.GetDescription(), filedName))
+    {
+        StatusCode = 400;
+        MessageEnum = MessageEnum.ValueIsInvalid;
+    }
+}
