@@ -15,7 +15,7 @@ public class UpdateCategoryHandler(ICategoryRepository categoryRepository, IToke
             throw new ObjectNotFoundException("Category");
         
         category.Name = request.Name;
-        category.UpdatedAt = DateTime.Now;
+        category.UpdatedAt = DateTime.UtcNow;
         
         await categoryRepository.SaveChangesAsync();
         
