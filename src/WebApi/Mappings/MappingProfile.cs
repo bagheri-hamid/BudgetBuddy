@@ -12,5 +12,6 @@ public class MappingProfile : Profile
      {
           CreateMap<Category, CategoryViewModel>();
           CreateMap<Account, AccountViewModel>();
+          CreateMap<Budget, BudgetViewModel>();
      }
 }
