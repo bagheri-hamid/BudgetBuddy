@@ -44,3 +44,12 @@ public class CanNotBeLessThanZeroException : DomainException
         MessageEnum = MessageEnum.CanNotBeLessThanZero;
     }
 }
+
+public class InvalidDateException : DomainException
+{
+    public InvalidDateException() : base(MessageEnum.InvalidDate.GetDescription())
+    {
+        StatusCode = 400;
+        MessageEnum = MessageEnum.InvalidDate;
+    }
+}

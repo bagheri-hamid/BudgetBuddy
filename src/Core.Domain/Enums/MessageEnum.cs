@@ -50,5 +50,8 @@ public enum MessageEnum  // Central message catalog
     ValueIsInvalid,
     
     [Description("Value must be greater than 0!")]
-    CanNotBeLessThanZero
+    CanNotBeLessThanZero,
+    
+    [Description("Invalid date!")]
+    InvalidDate,
 } 
