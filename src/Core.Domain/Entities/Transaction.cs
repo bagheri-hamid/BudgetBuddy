@@ -11,6 +11,8 @@ public class Transaction : BaseEntity
     [MaxLength(256)] public string? Description { get; set; }
 
     [Required] public TransactionType Type { get; set; }
+    
+    [Required] public required DateTime Date { get; set; }
 
     // Foreign keys
     [Required] public Guid CategoryId { get; set; }
