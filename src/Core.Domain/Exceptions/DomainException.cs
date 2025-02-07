@@ -35,3 +35,12 @@ public class InvalidValueException : DomainException
         MessageEnum = MessageEnum.ValueIsInvalid;
     }
 }
+
+public class CanNotBeLessThanZeroException : DomainException
+{
+    public CanNotBeLessThanZeroException() : base(MessageEnum.CanNotBeLessThanZero.GetDescription())
+    {
+        StatusCode = 400;
+        MessageEnum = MessageEnum.CanNotBeLessThanZero;
+    }
+}

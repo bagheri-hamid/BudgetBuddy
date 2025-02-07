@@ -49,4 +49,6 @@ public enum MessageEnum  // Central message catalog
     [Description("Value of {0} is invalid.")]
     ValueIsInvalid,
     
+    [Description("Value must be greater than 0!")]
+    CanNotBeLessThanZero
 } 
