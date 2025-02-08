@@ -19,4 +19,11 @@ public class BudgetController(IMediator mediator, IMapper mapper) : AuthorizedCo
         
         return ResponseHelper.CreateResponse(201,  MessageEnum.CreatedSuccessfully.GetDescription(), true, budgetViewModel);
     }
+    
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] UpdateBudgetCommand command)
+    {
+        await mediator.Send(command);
+        return ResponseHelper.CreateResponse<object>(204,  MessageEnum.UpdatedSuccessfully.GetDescription(), true);
+    }
 }
