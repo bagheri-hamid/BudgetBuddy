@@ -2,6 +2,7 @@
 using Core.Domain.Commands.Budget;
 using Core.Domain.Enums;
 using Core.Domain.Extensions;
+using Core.Domain.Queries.Budget;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Helpers;
@@ -32,5 +33,14 @@ public class BudgetController(IMediator mediator, IMapper mapper) : AuthorizedCo
     {
         await mediator.Send(new DeleteBudgetCommand(id));
         return ResponseHelper.CreateResponse<object>(202, MessageEnum.DeletedSuccessfully.GetDescription(), true);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] GetAllBudgetsQuery query)
+    {
+        var budgets = await mediator.Send(query);
+        var budgetsViewModel = mapper.Map<List<BudgetViewModel>>(budgets);
+
+        return ResponseHelper.CreateSuccessResponse(budgetsViewModel);
     }
 }
