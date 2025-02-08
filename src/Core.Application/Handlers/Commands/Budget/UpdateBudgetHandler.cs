@@ -15,7 +15,7 @@ public class UpdateBudgetHandler(IBudgetRepository budgetRepository, ITokenHelpe
         if (request.StartDate == default || request.EndDate == default)
             throw new InvalidDateException();
 
-        var budget = await budgetRepository.FindOneAsync(b => b.Id == request.Id);
+        var budget = await budgetRepository.FindOneAsync(b => b.Id == request.Id && b.UserId == tokenHelper.GetUserId());
 
         if (budget == null)
             throw new ObjectNotFoundException("Budget");
