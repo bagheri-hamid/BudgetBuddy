@@ -18,7 +18,6 @@ public class CreateBudgetHandler(
 
         if (request.StartDate == default || request.EndDate == default)
             throw new InvalidDateException();
-            
         
         if (!await categoryRepository.IsExistsAsync(c => c.Id == request.CategoryId))
             throw new ObjectNotFoundException("Category");
@@ -29,7 +28,7 @@ public class CreateBudgetHandler(
             Description = request.Description,
             StartDate = request.StartDate,
             EndDate = request.EndDate,
-            CategoryId = request.CategoryId.Value,
+            CategoryId = request.CategoryId,
             UserId = tokenHelper.GetUserId(),
         };
         
