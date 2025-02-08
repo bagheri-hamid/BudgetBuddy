@@ -26,7 +26,7 @@ public class UpdateAccountHandler(IAccountRepository accountRepository, ITokenHe
         if (request.Balance < 0)
             throw new InvalidValueException(nameof(Domain.Entities.Account.Balance));
 
-        var account = await accountRepository.GetByIdAsync(request.AccountId);
+        var account = await accountRepository.FindOneAsync(c => c.Id == request.AccountId && c.UserId == tokenHelper.GetUserId());
     
         if (account == null)
             throw new ObjectNotFoundException("Account");
