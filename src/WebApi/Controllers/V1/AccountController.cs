@@ -28,4 +28,12 @@ public class AccountController(IMediator mediator, IMapper mapper) : AuthorizedC
 
         return ResponseHelper.CreateResponse(201, MessageEnum.UpdatedSuccessfully.GetDescription(), true, accountViewModel);
     }
+    
+    [HttpDelete("{id:Guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await mediator.Send(new DeleteAccountCommand(id));
+        
+        return ResponseHelper.CreateResponse<object>(202, MessageEnum.DeletedSuccessfully.GetDescription(), true);
+    }
 }
