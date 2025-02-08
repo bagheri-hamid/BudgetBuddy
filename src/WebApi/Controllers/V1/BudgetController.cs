@@ -43,4 +43,13 @@ public class BudgetController(IMediator mediator, IMapper mapper) : AuthorizedCo
 
         return ResponseHelper.CreateSuccessResponse(budgetsViewModel);
     }
+    
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetAll(Guid id)
+    {
+        var budget = await mediator.Send(new GetBudgetByIdQuery(id));
+        var budgetViewModel = mapper.Map<BudgetViewModel>(budget);
+
+        return ResponseHelper.CreateSuccessResponse(budgetViewModel);
+    }
 }
