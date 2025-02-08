@@ -26,4 +26,11 @@ public class BudgetController(IMediator mediator, IMapper mapper) : AuthorizedCo
         await mediator.Send(command);
         return ResponseHelper.CreateResponse<object>(204,  MessageEnum.UpdatedSuccessfully.GetDescription(), true);
     }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await mediator.Send(new DeleteBudgetCommand(id));
+        return ResponseHelper.CreateResponse<object>(202, MessageEnum.DeletedSuccessfully.GetDescription(), true);
+    }
 }
