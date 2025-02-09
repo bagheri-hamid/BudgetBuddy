@@ -2,6 +2,7 @@
 using Core.Domain.Commands.Account;
 using Core.Domain.Enums;
 using Core.Domain.Extensions;
+using Core.Domain.Queries.Account;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Helpers;
@@ -35,5 +36,14 @@ public class AccountController(IMediator mediator, IMapper mapper) : AuthorizedC
         await mediator.Send(new DeleteAccountCommand(id));
         
         return ResponseHelper.CreateResponse<object>(202, MessageEnum.DeletedSuccessfully.GetDescription(), true);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] GetAllAccountsQuery query)
+    {
+        var accounts = await mediator.Send(query);
+        var accountsViewModel = mapper.Map<List<AccountViewModel>>(accounts);
+
+        return ResponseHelper.CreateSuccessResponse(accountsViewModel);
     }
 }
