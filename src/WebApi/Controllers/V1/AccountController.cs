@@ -46,4 +46,13 @@ public class AccountController(IMediator mediator, IMapper mapper) : AuthorizedC
 
         return ResponseHelper.CreateSuccessResponse(accountsViewModel);
     }
+    
+    [HttpGet("{id:Guid}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var account = await mediator.Send(new GetAccountByIdQuery(id));
+        var accountViewModel = mapper.Map<AccountViewModel>(account);
+
+        return ResponseHelper.CreateSuccessResponse(accountViewModel);
+    }
 }
