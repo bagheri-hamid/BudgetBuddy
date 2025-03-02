@@ -5,10 +5,10 @@ using MediatR;
 
 namespace Core.Application.Handlers.Commands.User;
 
-public class LogInHandler(IUserService userService) : IRequestHandler<LoginCommand, LoginResponse>
+public class LogInHandler(IAuthService authService) : IRequestHandler<LoginCommand, LoginResponse>
 {
     public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        return await userService.Login(request.Username, request.Password);
+        return await authService.Login(request.Username, request.Password);
     }
 }

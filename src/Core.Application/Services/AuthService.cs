@@ -5,12 +5,12 @@ using Core.Domain.Exceptions;
 
 namespace Core.Application.Services;
 
-public class UserService(
+public class AuthService(
     IUserRepository userRepository,
     IEmailValidator emailValidator,
     IPasswordHasher passwordHasher,
     IJwtService jwtService
-) : IUserService, IScopedDependency
+) : IAuthService, IScopedDependency
 {
     public async Task<SignUpResponse> SignUp(
         string username,
