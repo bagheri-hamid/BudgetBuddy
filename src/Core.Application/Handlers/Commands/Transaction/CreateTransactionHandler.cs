@@ -55,7 +55,8 @@ public class CreateTransactionHandler(
                 throw new ObjectNotFoundException("Account");
 
             account.Balance += request.Type == TransactionType.Income ? request.Amount : -request.Amount;
-
+            account.UpdatedAt = DateTime.Now;
+            
             await unitOfWork.CommitAsync();
         }
         catch (Exception e)
