@@ -22,8 +22,8 @@ public class DeleteTransactionHandler(IUnitOfWork unitOfWork, ITokenHelper token
             
             transaction.IsDeleted = true;
             transaction.Account.Balance += transaction.Type == TransactionType.Income ? -transaction.Amount : transaction.Amount;
-            transaction.UpdatedAt = DateTime.Now;
-            transaction.Account.UpdatedAt = DateTime.Now;
+            transaction.UpdatedAt = DateTime.UtcNow;
+            transaction.Account.UpdatedAt = DateTime.UtcNow;
             
             await unitOfWork.CommitAsync();
         }
