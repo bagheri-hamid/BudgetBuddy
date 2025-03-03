@@ -50,7 +50,7 @@ public class CreateTransactionHandler(
             await transactionRepository.AddAsync(transaction, cancellationToken);
 
             // Update the account balance
-            var account = await accountRepository.GetByIdAsync(request.AccountId, cancellationToken);
+            var account = await accountRepository.FindOneAsync(a => a.Id == request.AccountId && a.UserId == transaction.UserId, cancellationToken);
             if (account == null)
                 throw new ObjectNotFoundException("Account");
 
