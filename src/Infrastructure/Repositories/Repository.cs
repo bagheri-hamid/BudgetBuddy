@@ -52,17 +52,25 @@ public class Repository<T>(ApplicationDbContext context) : IRepository<T> where 
         
         return await query.Where(predicate).Skip(offset).Take(limit).ToListAsync(cancellationToken);
     }
-    
+
     /// <summary>
-    /// Finds entities that match the given predicate.
+    /// Asynchronously finds a single entity that matches the given predicate.
+    /// Applies a filter to exclude soft-deleted entities and includes specified navigation properties.
     /// </summary>
-    /// <param name="predicate">The condition to filter entities.</param>
-    /// <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>A list of entities that match the predicate.</returns>
-    public async Task<T?> FindOneAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+    /// <param name="predicate">The condition to filter the entity.</param>
+    /// <param name="includes">Navigation properties to include in the query.</param>
+    /// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
+    /// <returns>The first entity that matches the predicate, or null if no match is found.</returns>
+    public async Task<T?> FindOneAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includes)
     {
         var query = DbSet.AsQueryable();
         query = query.Where(c => c.IsDeleted == false);
+        
+        // Include navigation properties
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
         
         return await query.Where(predicate).FirstOrDefaultAsync(cancellationToken);
     }
