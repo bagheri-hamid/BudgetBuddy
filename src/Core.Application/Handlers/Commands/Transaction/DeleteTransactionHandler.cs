@@ -16,7 +16,10 @@ public class DeleteTransactionHandler(IUnitOfWork unitOfWork, ITokenHelper token
         {
             var transactionRepository = unitOfWork.Repository<Domain.Entities.Transaction>();
 
-            var transaction = await transactionRepository.FindOneAsync(t => t.Id == request.Id && t.UserId == tokenHelper.GetUserId(), cancellationToken);
+            var transaction = await transactionRepository.FindOneAsync(
+                t => t.Id == request.Id && t.UserId == tokenHelper.GetUserId(),
+                cancellationToken,
+                t => t.Account);
             if (transaction == null)
                 throw new ObjectNotFoundException("Transaction");
             
