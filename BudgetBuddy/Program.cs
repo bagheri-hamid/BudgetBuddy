@@ -1,10 +1,10 @@
 using BudgetBuddy.Extensions;
-using WebApi.Middlewares;
+using BudgetBuddy.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers().AddApplicationPart(typeof(WebApi.AssemblyReference).Assembly);
+builder.Services.AddControllers().AddApplicationPart(typeof(BudgetBuddy.Api.AssemblyReference).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
 builder.Services.AddApisVersioning();

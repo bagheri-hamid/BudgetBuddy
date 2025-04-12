@@ -18,8 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\Infrastructure\Infrastructure.csproj" />
-      <ProjectReference Include="..\src\WebApi\WebApi.csproj" />
+      <ProjectReference Include="..\src\BudgetBuddy.Infrastructure\BudgetBuddy.Infrastructure.csproj" />
+      <ProjectReference Include="..\src\BudgetBuddy.Api\BudgetBuddy.Api.csproj" />
     </ItemGroup>
 
 </Project>

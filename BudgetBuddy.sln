@@ -4,13 +4,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy", "BudgetBuddy\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B82161AA-5BC4-448A-89A6-C94E6273DECB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "src\WebApi\WebApi.csproj", "{C7A91C7D-834C-4F25-8D7E-76FCDDEF0B1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Api", "src\BudgetBuddy.Api\BudgetBuddy.Api.csproj", "{C7A91C7D-834C-4F25-8D7E-76FCDDEF0B1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "src\Core.Application\Core.Application.csproj", "{5CF5AE9B-2242-470F-9541-1343ABFD4AD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Application", "src\BudgetBuddy.Application\BudgetBuddy.Application.csproj", "{5CF5AE9B-2242-470F-9541-1343ABFD4AD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{2F098672-A2E9-4BA0-ACD1-9FF3A8EF0EFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Infrastructure", "src\BudgetBuddy.Infrastructure\BudgetBuddy.Infrastructure.csproj", "{2F098672-A2E9-4BA0-ACD1-9FF3A8EF0EFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain", "src\Core.Domain\Core.Domain.csproj", "{E0863D04-CB69-4BC3-9547-B4E3CCFE1271}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Domain", "src\BudgetBuddy.Domain\BudgetBuddy.Domain.csproj", "{E0863D04-CB69-4BC3-9547-B4E3CCFE1271}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

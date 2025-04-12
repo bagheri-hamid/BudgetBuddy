@@ -1,5 +1,5 @@
-﻿using Core.Application;
-using Infrastructure;
+﻿using BudgetBuddy.Application;
+using BudgetBuddy.Infrastructure;
 
 namespace BudgetBuddy.Extensions;
 
@@ -11,7 +11,7 @@ public static class ServiceExtension
             .AddServicesByScrutor()
             .AddInfrastructureServices(configuration)
             .AddApplicationServices()
-            .AddAutoMapper(typeof(WebApi.AssemblyReference).Assembly);
+            .AddAutoMapper(typeof(Api.AssemblyReference).Assembly);
         
         return services;
     }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels;
+using BudgetBuddy.Api.ViewModels;
 
 namespace BudgetBuddy.Extensions;
 

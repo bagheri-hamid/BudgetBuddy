@@ -1,4 +1,5 @@
-﻿using Core.Application.Settings;
+﻿
+using BudgetBuddy.Application.Settings;
 
 namespace BudgetBuddy.Extensions;
 
