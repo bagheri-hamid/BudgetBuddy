@@ -19,6 +19,14 @@ public class TransactionController(IMediator mediator, IMapper mapper) : Authori
 
         return ResponseHelper.CreateResponse(201, MessageEnum.CreatedSuccessfully.GetDescription(), true, transactionViewModel);
     }
+
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] UpdateTransactionCommand command)
+    {
+        var transaction = await mediator.Send(command);
+        var transactionViewModel = mapper.Map<TransactionViewModel>(transaction);
+        return ResponseHelper.CreateResponse(200, MessageEnum.UpdatedSuccessfully.GetDescription(), true, transactionViewModel);
+    }
     
     [HttpDelete("{id:Guid}")]
     public async Task<IActionResult> Delete(Guid id)
