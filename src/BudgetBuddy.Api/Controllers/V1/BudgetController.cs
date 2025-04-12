@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using BudgetBuddy.Api.Helpers;
 using BudgetBuddy.Api.ViewModels;
-using BudgetBuddy.Domain.Commands.Budget;
+using BudgetBuddy.Application.UseCases.Budgets.CreateBudget;
+using BudgetBuddy.Application.UseCases.Budgets.DeleteBudget;
+using BudgetBuddy.Application.UseCases.Budgets.GetAllBudgets;
+using BudgetBuddy.Application.UseCases.Budgets.GetBudgetById;
+using BudgetBuddy.Application.UseCases.Budgets.UpdateBudget;
 using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Extensions;
-using BudgetBuddy.Domain.Queries.Budget;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

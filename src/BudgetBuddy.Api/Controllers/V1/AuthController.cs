@@ -1,5 +1,6 @@
 ﻿using BudgetBuddy.Api.Helpers;
-using BudgetBuddy.Domain.Commands.User;
+using BudgetBuddy.Application.UseCases.Users.Login;
+using BudgetBuddy.Application.UseCases.Users.SignUp;
 using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Extensions;
 using MediatR;

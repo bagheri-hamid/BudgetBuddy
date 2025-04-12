@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using BudgetBuddy.Api.Helpers;
 using BudgetBuddy.Api.ViewModels;
-using BudgetBuddy.Domain.Commands.Category;
+using BudgetBuddy.Application.UseCases.Categories.CreateCategory;
+using BudgetBuddy.Application.UseCases.Categories.DeleteCategory;
+using BudgetBuddy.Application.UseCases.Categories.GetAllCategories;
+using BudgetBuddy.Application.UseCases.Categories.GetCategoryById;
+using BudgetBuddy.Application.UseCases.Categories.UpdateCategory;
 using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Extensions;
-using BudgetBuddy.Domain.Queries.Category;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
