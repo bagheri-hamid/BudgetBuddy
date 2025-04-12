@@ -2,6 +2,7 @@
 using Core.Domain.Commands.Transaction;
 using Core.Domain.Enums;
 using Core.Domain.Extensions;
+using Core.Domain.Queries.Transaction;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Helpers;
@@ -34,5 +35,14 @@ public class TransactionController(IMediator mediator, IMapper mapper) : Authori
         await mediator.Send(new DeleteTransactionCommand(id));
         
         return ResponseHelper.CreateResponse<object>(202, MessageEnum.DeletedSuccessfully.GetDescription(), true);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var transaction = await mediator.Send(new GetTransactionByIdQuery(id));
+        var transactionViewModel = mapper.Map<TransactionViewModel>(transaction);
+        
+        return ResponseHelper.CreateSuccessResponse(transactionViewModel);
     }
 }
