@@ -37,6 +37,15 @@ public class TransactionController(IMediator mediator, IMapper mapper) : Authori
         return ResponseHelper.CreateResponse<object>(202, MessageEnum.DeletedSuccessfully.GetDescription(), true);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] GetAllTransactionsQuery query)
+    {
+        var transactions = await mediator.Send(query);
+        var transactionViewModels = mapper.Map<List<TransactionViewModel>>(transactions);
+
+        return ResponseHelper.CreateSuccessResponse(transactionViewModels);
+    }
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
