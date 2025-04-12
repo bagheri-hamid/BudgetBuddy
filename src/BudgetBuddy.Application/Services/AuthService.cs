@@ -1,7 +1,7 @@
 using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Dtos.Auth;
-using BudgetBuddy.Domain.Entities;
 using BudgetBuddy.Domain.Exceptions;
+using BudgetBuddy.Domain.Users;
 
 namespace BudgetBuddy.Application.Services;
 

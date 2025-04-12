@@ -1,4 +1,4 @@
-﻿using BudgetBuddy.Domain.Entities;
+﻿using BudgetBuddy.Domain.Users;
 
 namespace BudgetBuddy.Application.Interfaces;
 

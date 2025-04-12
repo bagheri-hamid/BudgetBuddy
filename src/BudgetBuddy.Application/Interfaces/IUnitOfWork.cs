@@ -1,4 +1,4 @@
-﻿using BudgetBuddy.Domain.Entities;
+﻿using BudgetBuddy.Domain.Common;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BudgetBuddy.Application.Interfaces;

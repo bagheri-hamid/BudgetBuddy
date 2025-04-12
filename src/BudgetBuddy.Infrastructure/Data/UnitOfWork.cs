@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using BudgetBuddy.Application.Interfaces;
-using BudgetBuddy.Domain.Entities;
+using BudgetBuddy.Domain.Common;
 using BudgetBuddy.Infrastructure.Data.EF;
 using BudgetBuddy.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -13,14 +13,14 @@ public class UnitOfWork(ApplicationDbContext context, IServiceProvider servicePr
     private IDbContextTransaction? _currentTransaction;
     private bool _disposed;
     
-    public IRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity
+    public Application.Interfaces.IRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity
     {
         var type = typeof(TEntity).Name;
 
         // Try to get the repository from the cache
         if (_repositories.TryGetValue(type, out var repository))
         {
-            return (IRepository<TEntity>)repository;
+            return (Application.Interfaces.IRepository<TEntity>)repository;
         }
 
         // Create a new repository if not found in cache

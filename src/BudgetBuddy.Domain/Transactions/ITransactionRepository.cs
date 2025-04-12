@@ -1,7 +1,7 @@
 ﻿
-using BudgetBuddy.Domain.Entities;
+using BudgetBuddy.Domain.Common;
 
-namespace BudgetBuddy.Application.Interfaces;
+namespace BudgetBuddy.Domain.Transactions;
 
 public interface ITransactionRepository : IRepository<Transaction>
 {

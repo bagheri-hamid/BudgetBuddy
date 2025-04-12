@@ -1,4 +1,5 @@
 ﻿using BudgetBuddy.Application.Interfaces;
+using BudgetBuddy.Domain.Budgets;
 using BudgetBuddy.Domain.Commands.Budget;
 using BudgetBuddy.Domain.Exceptions;
 using MediatR;

@@ -7,4 +7,4 @@ namespace BudgetBuddy.Domain.Commands.Transaction;
 /// Command for updating trans
 /// </summary>
 public record UpdateTransactionCommand(Guid TransActionId, long Amount, string Description, TransactionType Type, DateTime Date, Guid CategoryId)
-    : IRequest<Entities.Transaction>;
+    : IRequest<Transactions.Transaction>;

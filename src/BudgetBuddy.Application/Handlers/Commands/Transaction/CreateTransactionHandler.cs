@@ -1,8 +1,8 @@
 ﻿using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Commands.Transaction;
-using BudgetBuddy.Domain.Entities;
 using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Exceptions;
+using BudgetBuddy.Domain.Transactions;
 using MediatR;
 
 namespace BudgetBuddy.Application.Handlers.Commands.Transaction;
@@ -17,14 +17,14 @@ namespace BudgetBuddy.Application.Handlers.Commands.Transaction;
 public class CreateTransactionHandler(
     ITokenHelper tokenHelper,
     IUnitOfWork unitOfWork
-) : IRequestHandler<CreateTransactionCommand, Domain.Entities.Transaction>
+) : IRequestHandler<CreateTransactionCommand, Domain.Transactions.Transaction>
 {
-    public async Task<Domain.Entities.Transaction> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Transactions.Transaction> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
     {
         if (request.Amount < 1)
             throw new CanNotBeLessThanZeroException();
 
-        var transaction = new Domain.Entities.Transaction
+        var transaction = new Domain.Transactions.Transaction
         {
             Amount = request.Amount,
             Description = request.Description,
@@ -39,9 +39,9 @@ public class CreateTransactionHandler(
 
         try
         {
-            var transactionRepository = unitOfWork.Repository<Domain.Entities.Transaction>();
-            var accountRepository = unitOfWork.Repository<Domain.Entities.Account>();
-            var categoryRepository = unitOfWork.Repository<Domain.Entities.Category>();
+            var transactionRepository = unitOfWork.Repository<Domain.Transactions.Transaction>();
+            var accountRepository = unitOfWork.Repository<Domain.Accounts.Account>();
+            var categoryRepository = unitOfWork.Repository<Domain.Categories.Category>();
 
             // Validate that the category exists
             if (!await categoryRepository.IsExistsAsync(c => c.Id == request.CategoryId, cancellationToken))

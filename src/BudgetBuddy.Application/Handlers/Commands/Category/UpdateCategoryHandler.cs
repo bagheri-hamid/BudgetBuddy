@@ -1,13 +1,14 @@
 ﻿using BudgetBuddy.Application.Interfaces;
+using BudgetBuddy.Domain.Categories;
 using BudgetBuddy.Domain.Commands.Category;
 using BudgetBuddy.Domain.Exceptions;
 using MediatR;
 
 namespace BudgetBuddy.Application.Handlers.Commands.Category;
 
-public class UpdateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<UpdateCategoryCommand, Domain.Entities.Category>
+public class UpdateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<UpdateCategoryCommand, Domain.Categories.Category>
 {
-    public async Task<Domain.Entities.Category> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Categories.Category> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = await categoryRepository.FindOneAsync(c => c.Id == request.Id && c.UserId == tokenHelper.GetUserId());
 

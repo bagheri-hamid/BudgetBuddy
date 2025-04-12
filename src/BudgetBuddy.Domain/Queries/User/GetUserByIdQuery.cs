@@ -2,7 +2,7 @@
 
 namespace BudgetBuddy.Domain.Queries.User;
 
-public class GetUserByIdQuery : IRequest<Entities.User>
+public class GetUserByIdQuery : IRequest<Users.User>
 {
     
 }

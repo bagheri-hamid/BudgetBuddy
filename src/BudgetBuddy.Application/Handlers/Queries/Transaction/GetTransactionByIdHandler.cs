@@ -1,14 +1,15 @@
 ﻿using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Exceptions;
 using BudgetBuddy.Domain.Queries.Transaction;
+using BudgetBuddy.Domain.Transactions;
 using MediatR;
 
 namespace BudgetBuddy.Application.Handlers.Queries.Transaction;
 
 public class GetTransactionByIdHandler(ITransactionRepository transactionRepository, ITokenHelper tokenHelper)
-    : IRequestHandler<GetTransactionByIdQuery, Domain.Entities.Transaction>
+    : IRequestHandler<GetTransactionByIdQuery, Domain.Transactions.Transaction>
 {
-    public async Task<Domain.Entities.Transaction> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Domain.Transactions.Transaction> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
     {
         var transaction = await transactionRepository.FindOneAsync(t => t.Id == request.Id && t.UserId == tokenHelper.GetUserId(), cancellationToken);
 

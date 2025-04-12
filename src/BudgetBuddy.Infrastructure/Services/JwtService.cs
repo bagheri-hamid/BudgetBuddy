@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Application.Settings;
-using BudgetBuddy.Domain.Entities;
+using BudgetBuddy.Domain.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

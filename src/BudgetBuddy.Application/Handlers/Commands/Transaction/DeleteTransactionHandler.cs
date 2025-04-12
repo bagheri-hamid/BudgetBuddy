@@ -14,7 +14,7 @@ public class DeleteTransactionHandler(IUnitOfWork unitOfWork, ITokenHelper token
 
         try
         {
-            var transactionRepository = unitOfWork.Repository<Domain.Entities.Transaction>();
+            var transactionRepository = unitOfWork.Repository<Domain.Transactions.Transaction>();
 
             var transaction = await transactionRepository.FindOneAsync(
                 t => t.Id == request.Id && t.UserId == tokenHelper.GetUserId(),

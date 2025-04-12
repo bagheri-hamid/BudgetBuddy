@@ -1,4 +1,6 @@
 ﻿using BudgetBuddy.Application.Interfaces;
+using BudgetBuddy.Domain.Budgets;
+using BudgetBuddy.Domain.Categories;
 using BudgetBuddy.Domain.Commands.Budget;
 using BudgetBuddy.Domain.Exceptions;
 using MediatR;
@@ -9,9 +11,9 @@ public class CreateBudgetHandler(
     IBudgetRepository budgetRepository,
     ITokenHelper tokenHelper,
     ICategoryRepository categoryRepository
-) : IRequestHandler<CreateBudgetCommand, Domain.Entities.Budget>
+) : IRequestHandler<CreateBudgetCommand, Domain.Budgets.Budget>
 {
-    public async Task<Domain.Entities.Budget> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Budgets.Budget> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
     {
         if (request.Amount < 1)
             throw new CanNotBeLessThanZeroException();
@@ -22,7 +24,7 @@ public class CreateBudgetHandler(
         if (!await categoryRepository.IsExistsAsync(c => c.Id == request.CategoryId))
             throw new ObjectNotFoundException("Category");
         
-        var budget = new Domain.Entities.Budget
+        var budget = new Domain.Budgets.Budget
         {
             Amount = request.Amount,
             Description = request.Description,

@@ -1,5 +1,9 @@
-﻿using BudgetBuddy.Domain.Entities;
-using BudgetBuddy.Application.Interfaces;
+﻿using BudgetBuddy.Application.Interfaces;
+using BudgetBuddy.Domain.Accounts;
+using BudgetBuddy.Domain.Budgets;
+using BudgetBuddy.Domain.Categories;
+using BudgetBuddy.Domain.Transactions;
+using BudgetBuddy.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBuddy.Infrastructure.Data.EF;

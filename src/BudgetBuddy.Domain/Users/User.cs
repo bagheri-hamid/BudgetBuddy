@@ -1,6 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BudgetBuddy.Domain.Accounts;
+using BudgetBuddy.Domain.Budgets;
+using BudgetBuddy.Domain.Categories;
+using BudgetBuddy.Domain.Common;
+using BudgetBuddy.Domain.Transactions;
 
-namespace BudgetBuddy.Domain.Entities;
+namespace BudgetBuddy.Domain.Users;
 
 public class User : BaseEntity
 {

@@ -1,5 +1,5 @@
 ﻿using BudgetBuddy.Application.Interfaces;
-using BudgetBuddy.Domain.Entities;
+using BudgetBuddy.Domain.Users;
 using BudgetBuddy.Infrastructure.Data.EF;
 
 namespace BudgetBuddy.Infrastructure.Repositories;

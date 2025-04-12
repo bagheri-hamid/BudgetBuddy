@@ -1,12 +1,11 @@
 ﻿using System.Linq.Expressions;
-using BudgetBuddy.Application.Interfaces;
-using BudgetBuddy.Domain.Entities;
+using BudgetBuddy.Domain.Common;
 using BudgetBuddy.Infrastructure.Data.EF;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBuddy.Infrastructure.Repositories;
 
-public class Repository<T>(ApplicationDbContext context) : IRepository<T> where T : BaseEntity
+public class Repository<T>(ApplicationDbContext context) : Application.Interfaces.IRepository<T> where T : BaseEntity
 {
     protected readonly DbSet<T> DbSet = context.Set<T>();
     

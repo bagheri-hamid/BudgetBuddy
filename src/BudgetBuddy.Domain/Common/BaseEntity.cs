@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BudgetBuddy.Domain.Entities;
+namespace BudgetBuddy.Domain.Common;
 
 public abstract class BaseEntity
 {

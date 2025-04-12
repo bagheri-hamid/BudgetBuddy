@@ -6,18 +6,18 @@ using MediatR;
 
 namespace BudgetBuddy.Application.Handlers.Commands.Transaction;
 
-public class UpdateTransactionHandler(IUnitOfWork unitOfWork, ITokenHelper tokenHelper) : IRequestHandler<UpdateTransactionCommand, Domain.Entities.Transaction>
+public class UpdateTransactionHandler(IUnitOfWork unitOfWork, ITokenHelper tokenHelper) : IRequestHandler<UpdateTransactionCommand, Domain.Transactions.Transaction>
 {
-    public async Task<Domain.Entities.Transaction> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Transactions.Transaction> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
     {
-        Domain.Entities.Transaction? transaction;
+        Domain.Transactions.Transaction? transaction;
         
         await unitOfWork.BeginTransactionAsync();
 
         try
         {
-            var transactionRepository = unitOfWork.Repository<Domain.Entities.Transaction>();
-            var categoryRepository = unitOfWork.Repository<Domain.Entities.Category>();
+            var transactionRepository = unitOfWork.Repository<Domain.Transactions.Transaction>();
+            var categoryRepository = unitOfWork.Repository<Domain.Categories.Category>();
 
             // Validate that the category exists
             if (!await categoryRepository.IsExistsAsync(c => c.Id == request.CategoryId, cancellationToken))

@@ -1,8 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BudgetBuddy.Domain.Accounts;
+using BudgetBuddy.Domain.Categories;
+using BudgetBuddy.Domain.Common;
 using BudgetBuddy.Domain.Enums;
+using BudgetBuddy.Domain.Users;
 
-namespace BudgetBuddy.Domain.Entities;
+namespace BudgetBuddy.Domain.Transactions;
 
 public class Transaction : BaseEntity
 {

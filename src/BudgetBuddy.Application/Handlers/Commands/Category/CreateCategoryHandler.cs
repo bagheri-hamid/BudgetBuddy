@@ -1,6 +1,6 @@
 ﻿using BudgetBuddy.Application.Interfaces;
+using BudgetBuddy.Domain.Categories;
 using BudgetBuddy.Domain.Commands.Category;
-using BudgetBuddy.Domain.Entities;
 using BudgetBuddy.Domain.Exceptions;
 using MediatR;
 
@@ -16,12 +16,12 @@ namespace BudgetBuddy.Application.Handlers.Commands.Category;
 ///    with the provided name, parent category ID, and user ID.
 /// 3. Returning the newly created <see cref="Category"/> entity.
 /// </remarks>
-public class CreateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<CreateCategoryCommand, Domain.Entities.Category>
+public class CreateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<CreateCategoryCommand, Domain.Categories.Category>
 {
-    public async Task<Domain.Entities.Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Categories.Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(request.Name))
-            throw new EmptyFiledException(nameof(Domain.Entities.Category.Name));
+            throw new EmptyFiledException(nameof(Domain.Categories.Category.Name));
 
         if (request.ParentCategoryId != null)
         {
@@ -31,7 +31,7 @@ public class CreateCategoryHandler(ICategoryRepository categoryRepository, IToke
                 throw new ParentCategoryNotFoundException();
         }
 
-        var category = new Domain.Entities.Category
+        var category = new Domain.Categories.Category
         {
             Name = request.Name,
             ParentCategoryId = request.ParentCategoryId,

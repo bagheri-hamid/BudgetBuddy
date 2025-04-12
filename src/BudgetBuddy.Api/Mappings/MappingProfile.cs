@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BudgetBuddy.Api.ViewModels;
-using BudgetBuddy.Domain.Entities;
+using BudgetBuddy.Domain.Accounts;
+using BudgetBuddy.Domain.Budgets;
+using BudgetBuddy.Domain.Categories;
 
 namespace BudgetBuddy.Api.Mappings;
 
