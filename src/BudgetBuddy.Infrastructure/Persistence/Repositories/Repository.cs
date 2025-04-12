@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
 using BudgetBuddy.Domain.Common;
-using BudgetBuddy.Infrastructure.Data.EF;
+using BudgetBuddy.Infrastructure.Persistence.DbContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace BudgetBuddy.Infrastructure.Repositories;
+namespace BudgetBuddy.Infrastructure.Persistence.Repositories;
 
 public class Repository<T>(ApplicationDbContext context) : Application.Interfaces.IRepository<T> where T : BaseEntity
 {

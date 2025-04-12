@@ -1,8 +1,8 @@
 ﻿using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Accounts;
-using BudgetBuddy.Infrastructure.Data.EF;
+using BudgetBuddy.Infrastructure.Persistence.DbContext;
 
-namespace BudgetBuddy.Infrastructure.Repositories;
+namespace BudgetBuddy.Infrastructure.Persistence.Repositories;
 
 public class AccountRepository(ApplicationDbContext context) : Repository<Account>(context), IAccountRepository, IScopedDependency
 {

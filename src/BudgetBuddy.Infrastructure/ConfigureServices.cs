@@ -1,5 +1,5 @@
 ﻿using BudgetBuddy.Application.Interfaces;
-using BudgetBuddy.Infrastructure.Data.EF;
+using BudgetBuddy.Infrastructure.Persistence.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

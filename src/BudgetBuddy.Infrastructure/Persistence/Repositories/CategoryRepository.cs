@@ -1,8 +1,8 @@
 ﻿using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Categories;
-using BudgetBuddy.Infrastructure.Data.EF;
+using BudgetBuddy.Infrastructure.Persistence.DbContext;
 
-namespace BudgetBuddy.Infrastructure.Repositories;
+namespace BudgetBuddy.Infrastructure.Persistence.Repositories;
 
 public class CategoryRepository(ApplicationDbContext context) : Repository<Category>(context), ICategoryRepository, IScopedDependency
 {

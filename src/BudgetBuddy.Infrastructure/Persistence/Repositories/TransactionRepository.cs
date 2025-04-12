@@ -1,8 +1,8 @@
 ﻿using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Transactions;
-using BudgetBuddy.Infrastructure.Data.EF;
+using BudgetBuddy.Infrastructure.Persistence.DbContext;
 
-namespace BudgetBuddy.Infrastructure.Repositories;
+namespace BudgetBuddy.Infrastructure.Persistence.Repositories;
 
 public class TransactionRepository(ApplicationDbContext context) : Repository<Transaction>(context), ITransactionRepository, IScopedDependency
 {

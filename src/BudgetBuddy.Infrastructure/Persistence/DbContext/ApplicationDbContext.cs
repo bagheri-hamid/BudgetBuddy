@@ -6,9 +6,9 @@ using BudgetBuddy.Domain.Transactions;
 using BudgetBuddy.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace BudgetBuddy.Infrastructure.Data.EF;
+namespace BudgetBuddy.Infrastructure.Persistence.DbContext;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IApplicationDbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : Microsoft.EntityFrameworkCore.DbContext(options), IApplicationDbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Account> Accounts { get; set; }

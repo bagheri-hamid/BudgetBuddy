@@ -1,8 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Common;
-using BudgetBuddy.Infrastructure.Data.EF;
-using BudgetBuddy.Infrastructure.Repositories;
+using BudgetBuddy.Infrastructure.Persistence.DbContext;
+using BudgetBuddy.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BudgetBuddy.Infrastructure.Data;
