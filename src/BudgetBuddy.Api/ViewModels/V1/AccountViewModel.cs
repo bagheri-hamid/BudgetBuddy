@@ -1,4 +1,4 @@
-﻿namespace BudgetBuddy.Api.ViewModels;
+﻿namespace BudgetBuddy.Api.ViewModels.V1;
 
 public record AccountViewModel(
     Guid Id,

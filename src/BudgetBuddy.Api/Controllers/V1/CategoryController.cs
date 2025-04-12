@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BudgetBuddy.Api.Helpers;
 using BudgetBuddy.Api.ViewModels;
+using BudgetBuddy.Api.ViewModels.V1;
 using BudgetBuddy.Application.UseCases.Categories.CreateCategory;
 using BudgetBuddy.Application.UseCases.Categories.DeleteCategory;
 using BudgetBuddy.Application.UseCases.Categories.GetAllCategories;

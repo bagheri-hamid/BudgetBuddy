@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BudgetBuddy.Api.Helpers;
 using BudgetBuddy.Api.ViewModels;
+using BudgetBuddy.Api.ViewModels.V1;
 using BudgetBuddy.Application.UseCases.Accounts.CreateAccount;
 using BudgetBuddy.Application.UseCases.Accounts.DeleteAccount;
 using BudgetBuddy.Application.UseCases.Accounts.GetAccountById;

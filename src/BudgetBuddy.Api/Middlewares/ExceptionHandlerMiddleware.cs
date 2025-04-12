@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 using BudgetBuddy.Api.ViewModels;
+using BudgetBuddy.Api.ViewModels.V1;
 using BudgetBuddy.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 

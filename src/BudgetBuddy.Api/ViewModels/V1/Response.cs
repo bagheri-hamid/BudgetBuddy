@@ -1,6 +1,6 @@
 ﻿using BudgetBuddy.Api.Interfaces;
 
-namespace BudgetBuddy.Api.ViewModels;
+namespace BudgetBuddy.Api.ViewModels.V1;
 
 public class Response<T>(int statusCode, string message, bool isSuccess, T data)
     : IResponse<T>

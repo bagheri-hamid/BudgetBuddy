@@ -1,6 +1,6 @@
 ﻿using BudgetBuddy.Domain.Enums;
 
-namespace BudgetBuddy.Api.ViewModels;
+namespace BudgetBuddy.Api.ViewModels.V1;
 
 public record TransactionViewModel(
     long Amount,
