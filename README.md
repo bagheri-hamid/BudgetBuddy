@@ -103,4 +103,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) fi
 * Hamid Bagheri – https://linkedin.com/in/hamid-bagheri-133111229 – HamidBagheri9846@gmail.com
 * Samaneh Alimohamadi - https://linkedin.com/in/samaneh-alimohammadi-33b7a6248 - a.smneh79@gmail.com
 
-Project Link: [https://github.com/your-username/budgetbuddy](https://github.com/your-username/budgetbuddy)
+Project Link: [https://github.com/bagheri-hamid/budgetbuddy](https://github.com/your-username/budgetbuddy)
