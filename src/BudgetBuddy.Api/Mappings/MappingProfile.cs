@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BudgetBuddy.Api.ViewModels;
 using BudgetBuddy.Api.ViewModels.V1;
 using BudgetBuddy.Domain.Accounts;
 using BudgetBuddy.Domain.Budgets;
 using BudgetBuddy.Domain.Categories;
+using BudgetBuddy.Domain.Transactions;
 
 namespace BudgetBuddy.Api.Mappings;
 
@@ -16,5 +16,6 @@ public class MappingProfile : Profile
           CreateMap<Category, CategoryViewModel>();
           CreateMap<Account, AccountViewModel>();
           CreateMap<Budget, BudgetViewModel>();
+          CreateMap<Transaction, TransactionViewModel>();
      }
 }
