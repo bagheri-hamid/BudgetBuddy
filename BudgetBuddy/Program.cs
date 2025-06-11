@@ -1,7 +1,8 @@
 using BudgetBuddy.Extensions;
 using BudgetBuddy.Api.Middlewares;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args).AddSerilog();
 
 // Add services to the container.
 builder.Services.AddControllers().AddApplicationPart(typeof(BudgetBuddy.Api.AssemblyReference).Assembly);
@@ -27,6 +28,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSerilogRequestLogging(option => { option.IncludeQueryInRequestPath = true; });
 
 app.MapControllers();
 
