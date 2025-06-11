@@ -1,4 +1,4 @@
-﻿namespace BudgetBuddy.Application.Settings;
+﻿namespace BudgetBuddy.Shared.Settings;
 
 public class JwtSettings
 {

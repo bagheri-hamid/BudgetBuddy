@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using BudgetBuddy.Application.Settings;
+using BudgetBuddy.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

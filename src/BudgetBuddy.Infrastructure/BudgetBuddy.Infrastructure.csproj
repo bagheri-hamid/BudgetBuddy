@@ -18,6 +18,7 @@
     <ItemGroup>
       <ProjectReference Include="..\BudgetBuddy.Domain\BudgetBuddy.Domain.csproj" />
       <ProjectReference Include="..\BudgetBuddy.Application\BudgetBuddy.Application.csproj" />
+      <ProjectReference Include="..\Shared\BudgetBuddy.Shared\BudgetBuddy.Shared.csproj" />
     </ItemGroup>
 
 </Project>
