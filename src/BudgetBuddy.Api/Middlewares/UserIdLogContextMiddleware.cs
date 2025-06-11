@@ -1,4 +1,5 @@
 ﻿using BudgetBuddy.Application.Interfaces;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Serilog.Context;
 
@@ -31,4 +32,10 @@ public class UserIdLogContextMiddleware(RequestDelegate next)
             await next(context);
         }
     }
+}
+
+public static class UserIdLogContextMiddlewareExtensions
+{
+    public static IApplicationBuilder UseUserIdLogContext(this IApplicationBuilder builder) =>
+        builder.UseMiddleware<UserIdLogContextMiddleware>();
 }

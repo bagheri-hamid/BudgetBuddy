@@ -31,7 +31,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-app.UseMiddleware<UserIdLogContextMiddleware>();
+app.UseUserIdLogContext();
+app.UseRequestBodyLogging();
 app.UseSerilogRequestLogging(option => { option.IncludeQueryInRequestPath = true; });
 
 app.MapControllers();

@@ -31,6 +31,13 @@ public static class SerilogExtension
                 DataType = System.Data.SqlDbType.NVarChar,
                 DataLength = 255, // Or a suitable length for your source contexts
                 AllowNull = true
+            },
+            new()
+            {
+                ColumnName = "RequestBody",
+                DataType = System.Data.SqlDbType.NVarChar, // NVarChar(MAX) or similar depending on expected body size
+                DataLength = -1, // -1 for NVARCHAR(MAX)
+                AllowNull = true
             }
         };
 
