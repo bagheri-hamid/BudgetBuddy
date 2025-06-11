@@ -15,18 +15,38 @@ public static class SerilogExtension
         var columnOptions = new ColumnOptions();
         columnOptions.Store.Remove(StandardColumn.Properties); // Remove default Properties column
         columnOptions.Store.Add(StandardColumn.LogEvent); // Keep the full LogEvent JSON
-        
+        columnOptions.Store.Remove(StandardColumn.MessageTemplate);
+
+        columnOptions.AdditionalColumns = new List<SqlColumn>
+        {
+            new()
+            {
+                ColumnName = "UserId",
+                DataType = System.Data.SqlDbType.UniqueIdentifier,
+                AllowNull = true
+            },
+            new()
+            {
+                ColumnName = "SourceContext",
+                DataType = System.Data.SqlDbType.NVarChar,
+                DataLength = 255, // Or a suitable length for your source contexts
+                AllowNull = true
+            }
+        };
+
         // Create an instance of MSSqlServerSinkOptions
         var sinkOptions = new MSSqlServerSinkOptions
         {
             TableName = "Logs",
             AutoCreateSqlTable = true,
             SchemaName = "log",
-            BatchPostingLimit = 10,
+            BatchPostingLimit = 20,
+            BatchPeriod = TimeSpan.FromSeconds(5)
         };
 
         Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(builder.Configuration) // Read base Serilog config from appsettings
+            .Enrich.FromLogContext()
             .Enrich.WithMachineName()
             .WriteTo.Console()
             .WriteTo.MSSqlServer(
