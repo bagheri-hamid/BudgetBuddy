@@ -5,19 +5,17 @@ using MediatR;
 
 namespace BudgetBuddy.Application.UseCases.Categories.UpdateCategory;
 
-public class UpdateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<UpdateCategoryCommand, Domain.Categories.Category>
+public class UpdateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<UpdateCategoryCommand, Category>
 {
-    public async Task<Domain.Categories.Category> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Category> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.FindOneAsync(c => c.Id == request.Id && c.UserId == tokenHelper.GetUserId());
+        var category = await categoryRepository.FindOneAsync(c => c.Id == request.Id && c.UserId == tokenHelper.GetUserId(), cancellationToken);
 
         if (category == null)
             throw new ObjectNotFoundException("Category");
         
-        category.Name = request.Name;
-        category.UpdatedAt = DateTime.UtcNow;
-        
-        await categoryRepository.SaveChangesAsync();
+        category.Update(request.Name);
+        await categoryRepository.SaveChangesAsync(cancellationToken);
         
         return category;
     }

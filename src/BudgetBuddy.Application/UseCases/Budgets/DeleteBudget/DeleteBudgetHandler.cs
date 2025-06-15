@@ -9,14 +9,14 @@ public class DeleteBudgetHandler(IBudgetRepository budgetRepository, ITokenHelpe
 {
     public async Task<Unit> Handle(DeleteBudgetCommand request, CancellationToken cancellationToken)
     {
-        var budget = await budgetRepository.FindOneAsync(b => b.Id == request.Id && b.UserId == tokenHelper.GetUserId());
+        var budget = await budgetRepository.FindOneAsync(b => b.Id == request.Id && b.UserId == tokenHelper.GetUserId(), cancellationToken);
 
         if (budget == null)
             throw new ObjectNotFoundException("Budget");
         
-        budget.IsDeleted = true;
+        budget.Delete();
 
-        await budgetRepository.SaveChangesAsync();
+        await budgetRepository.SaveChangesAsync(cancellationToken);
         
         return Unit.Value;
     }

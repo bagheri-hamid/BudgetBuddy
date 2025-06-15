@@ -9,14 +9,14 @@ public class DeleteCategoryHandler(ICategoryRepository categoryRepository, IToke
 {
     public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.FindOneAsync(c => c.Id == request.Id && c.UserId == tokenHelper.GetUserId());
+        var category = await categoryRepository.FindOneAsync(c => c.Id == request.Id && c.UserId == tokenHelper.GetUserId(), cancellationToken);
 
         if (category == null)
             throw new ObjectNotFoundException("Category");
         
-        category.IsDeleted = true;
+        category.Delete();
         
-        await categoryRepository.SaveChangesAsync();
+        await categoryRepository.SaveChangesAsync(cancellationToken);
         
         return Unit.Value;
     }

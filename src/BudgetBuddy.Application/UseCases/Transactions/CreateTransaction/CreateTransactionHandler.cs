@@ -1,5 +1,4 @@
 ﻿using BudgetBuddy.Application.Interfaces;
-using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Exceptions;
 using BudgetBuddy.Domain.Transactions;
 using MediatR;
@@ -16,55 +15,36 @@ namespace BudgetBuddy.Application.UseCases.Transactions.CreateTransaction;
 public class CreateTransactionHandler(
     ITokenHelper tokenHelper,
     IUnitOfWork unitOfWork
-) : IRequestHandler<CreateTransactionCommand, Domain.Transactions.Transaction>
+) : IRequestHandler<CreateTransactionCommand, Transaction>
 {
-    public async Task<Domain.Transactions.Transaction> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
+    public async Task<Transaction> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
     {
-        if (request.Amount < 1)
-            throw new CanNotBeLessThanZeroException();
-
-        var transaction = new Domain.Transactions.Transaction
-        {
-            Amount = request.Amount,
-            Description = request.Description,
-            Type = request.Type,
-            Date = request.Date,
-            CategoryId = request.CategoryId,
-            AccountId = request.AccountId,
-            UserId = tokenHelper.GetUserId(),
-        };
-
-        await unitOfWork.BeginTransactionAsync();
+        await using var transactionScope = await unitOfWork.BeginTransactionAsync();
 
         try
         {
-            var transactionRepository = unitOfWork.Repository<Domain.Transactions.Transaction>();
-            var accountRepository = unitOfWork.Repository<Domain.Accounts.Account>();
-            var categoryRepository = unitOfWork.Repository<Domain.Categories.Category>();
+            var userId = tokenHelper.GetUserId();
+            var account = await unitOfWork.Repository<Domain.Accounts.Account>().FindOneAsync(a => a.Id == request.AccountId && a.UserId == userId, cancellationToken);
 
-            // Validate that the category exists
-            if (!await categoryRepository.IsExistsAsync(c => c.Id == request.CategoryId, cancellationToken))
-                throw new ObjectNotFoundException("Category");
-
-            // Add the transaction
-            await transactionRepository.AddAsync(transaction, cancellationToken);
-
-            // Update the account balance
-            var account = await accountRepository.FindOneAsync(a => a.Id == request.AccountId && a.UserId == transaction.UserId, cancellationToken);
             if (account == null)
-                throw new ObjectNotFoundException("Account");
+                throw new ObjectNotFoundException(nameof(Domain.Accounts.Account));
 
-            account.Balance += request.Type == TransactionType.Income ? request.Amount : -request.Amount;
-            account.UpdatedAt = DateTime.UtcNow;
+            if (!await unitOfWork.Repository<Domain.Categories.Category>().IsExistsAsync(c => c.Id == request.CategoryId, cancellationToken))
+                throw new ObjectNotFoundException(nameof(Domain.Categories.Category));
+
+            var transaction = new Transaction(request.Amount, request.Description, request.Type, request.Date, request.CategoryId, request.AccountId, userId);
             
+            account.UpdateBalance(transaction.Amount, transaction.Type);
+
+            await unitOfWork.Repository<Transaction>().AddAsync(transaction, cancellationToken);
             await unitOfWork.CommitAsync();
+
+            return transaction;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             await unitOfWork.RollbackTransactionAsync();
             throw;
         }
-
-        return transaction;
     }
 }

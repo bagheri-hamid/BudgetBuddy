@@ -1,5 +1,4 @@
-﻿using BudgetBuddy.Api.ViewModels;
-using BudgetBuddy.Api.ViewModels.V1;
+﻿using BudgetBuddy.Api.ViewModels.V1;
 using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Extensions;
 using Microsoft.AspNetCore.Mvc;

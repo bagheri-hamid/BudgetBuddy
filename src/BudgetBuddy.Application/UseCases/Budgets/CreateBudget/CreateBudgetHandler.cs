@@ -10,9 +10,9 @@ public class CreateBudgetHandler(
     IBudgetRepository budgetRepository,
     ITokenHelper tokenHelper,
     ICategoryRepository categoryRepository
-) : IRequestHandler<CreateBudgetCommand, Domain.Budgets.Budget>
+) : IRequestHandler<CreateBudgetCommand, Budget>
 {
-    public async Task<Domain.Budgets.Budget> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
+    public async Task<Budget> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
     {
         if (request.Amount < 1)
             throw new CanNotBeLessThanZeroException();
@@ -20,21 +20,12 @@ public class CreateBudgetHandler(
         if (request.StartDate == default || request.EndDate == default)
             throw new InvalidDateException();
         
-        if (!await categoryRepository.IsExistsAsync(c => c.Id == request.CategoryId))
+        if (!await categoryRepository.IsExistsAsync(c => c.Id == request.CategoryId, cancellationToken))
             throw new ObjectNotFoundException("Category");
-        
-        var budget = new Domain.Budgets.Budget
-        {
-            Amount = request.Amount,
-            Description = request.Description,
-            StartDate = request.StartDate,
-            EndDate = request.EndDate,
-            CategoryId = request.CategoryId,
-            UserId = tokenHelper.GetUserId(),
-        };
-        
-        await budgetRepository.AddAsync(budget);
-        await budgetRepository.SaveChangesAsync();
+
+        var budget = new Budget(request.Amount, request.Description, request.StartDate, request.EndDate, request.CategoryId, tokenHelper.GetUserId());
+        await budgetRepository.AddAsync(budget, cancellationToken);
+        await budgetRepository.SaveChangesAsync(cancellationToken);
 
         return budget;
     }

@@ -22,17 +22,11 @@ public class CreateAccountHandler(IAccountRepository accountRepository, ITokenHe
 
         if (string.IsNullOrWhiteSpace(request.Type))
             throw new EmptyFiledException(nameof(Domain.Accounts.Account.Type));
+
+        var account = new Domain.Accounts.Account(request.Name, request.Type, request.Balance, tokenHelper.GetUserId());
         
-        var account = new Domain.Accounts.Account
-        {
-            Name = request.Name,
-            Type = request.Type,
-            Balance = request.Balance,
-            UserId = tokenHelper.GetUserId(),
-        };
-        
-        await accountRepository.AddAsync(account);
-        await accountRepository.SaveChangesAsync();
+        await accountRepository.AddAsync(account, cancellationToken);
+        await accountRepository.SaveChangesAsync(cancellationToken);
         
         return account;
     }

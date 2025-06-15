@@ -15,32 +15,26 @@ namespace BudgetBuddy.Application.UseCases.Categories.CreateCategory;
 ///    with the provided name, parent category ID, and user ID.
 /// 3. Returning the newly created <see cref="Category"/> entity.
 /// </remarks>
-public class CreateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<CreateCategoryCommand, Domain.Categories.Category>
+public class CreateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<CreateCategoryCommand, Category>
 {
-    public async Task<Domain.Categories.Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(request.Name))
-            throw new EmptyFiledException(nameof(Domain.Categories.Category.Name));
+            throw new EmptyFiledException(nameof(Category.Name));
 
         if (request.ParentCategoryId != null)
         {
-            var isExist = await categoryRepository.IsExistsAsync(c => c.Id == request.ParentCategoryId);
+            var isExist = await categoryRepository.IsExistsAsync(c => c.Id == request.ParentCategoryId, cancellationToken);
 
             if (!isExist)
                 throw new ParentCategoryNotFoundException();
         }
 
-        var category = new Domain.Categories.Category
-        {
-            Name = request.Name,
-            ParentCategoryId = request.ParentCategoryId,
-            UserId = tokenHelper.GetUserId(),
-        };
+        var category = new Category(request.Name, request.ParentCategoryId, tokenHelper.GetUserId());
         
-        await categoryRepository.AddAsync(category);
-        await categoryRepository.SaveChangesAsync();
+        await categoryRepository.AddAsync(category, cancellationToken);
+        await categoryRepository.SaveChangesAsync(cancellationToken);
         
         return category;
-        
     }
 }

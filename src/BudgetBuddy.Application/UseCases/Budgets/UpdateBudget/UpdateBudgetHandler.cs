@@ -15,19 +15,15 @@ public class UpdateBudgetHandler(IBudgetRepository budgetRepository, ITokenHelpe
         if (request.StartDate == default || request.EndDate == default)
             throw new InvalidDateException();
 
-        var budget = await budgetRepository.FindOneAsync(b => b.Id == request.Id && b.UserId == tokenHelper.GetUserId());
+        var budget = await budgetRepository.FindOneAsync(b => b.Id == request.Id && b.UserId == tokenHelper.GetUserId(), cancellationToken);
 
         if (budget == null)
             throw new ObjectNotFoundException("Budget");
-        
-        budget.Amount = request.Amount;
-        budget.Description = request.Description;
-        budget.StartDate = request.StartDate;
-        budget.EndDate = request.EndDate;
-        budget.UpdatedAt = DateTime.UtcNow;
 
-        await budgetRepository.SaveChangesAsync();
-        
+        budget.Update(request.Amount, request.Description, request.StartDate, request.EndDate);
+
+        await budgetRepository.SaveChangesAsync(cancellationToken);
+
         return Unit.Value;
     }
 }

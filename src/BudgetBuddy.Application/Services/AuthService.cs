@@ -42,13 +42,7 @@ public class AuthService(
         var passwordHash = passwordHasher.Hash(password);
 
         // Create user entity
-        var user = new User
-        {
-            Username = username.Trim(),
-            FullName = fullName?.Trim(),
-            Email = email.ToLowerInvariant(),
-            Password = passwordHash,
-        };
+        var user = new User(username.Trim(), fullName?.Trim(), email.ToLowerInvariant(), passwordHash);
 
         await userRepository.AddAsync(user);
         await userRepository.SaveChangesAsync();

@@ -9,14 +9,14 @@ public class DeleteAccountHandler(IAccountRepository accountRepository, ITokenHe
 {
     public async Task<Unit> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
     {
-        var account = await accountRepository.FindOneAsync(c => c.Id == request.AccountId && c.UserId == tokenHelper.GetUserId());
+        var account = await accountRepository.FindOneAsync(c => c.Id == request.AccountId && c.UserId == tokenHelper.GetUserId(), cancellationToken);
 
         if (account == null)
             throw new ObjectNotFoundException("Account");
         
-        account.IsDeleted = true;
+        account.Delete();
         
-        await accountRepository.SaveChangesAsync();
+        await accountRepository.SaveChangesAsync(cancellationToken);
         
         return Unit.Value;
     }

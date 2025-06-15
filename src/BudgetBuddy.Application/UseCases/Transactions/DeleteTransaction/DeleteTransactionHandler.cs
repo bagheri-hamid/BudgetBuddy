@@ -1,5 +1,4 @@
 ﻿using BudgetBuddy.Application.Interfaces;
-using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Exceptions;
 using MediatR;
 
@@ -22,10 +21,7 @@ public class DeleteTransactionHandler(IUnitOfWork unitOfWork, ITokenHelper token
             if (transaction == null)
                 throw new ObjectNotFoundException("Transaction");
             
-            transaction.IsDeleted = true;
-            transaction.Account.Balance += transaction.Type == TransactionType.Income ? -transaction.Amount : transaction.Amount;
-            transaction.UpdatedAt = DateTime.UtcNow;
-            transaction.Account.UpdatedAt = DateTime.UtcNow;
+            transaction.Delete();
             
             await unitOfWork.CommitAsync();
         }

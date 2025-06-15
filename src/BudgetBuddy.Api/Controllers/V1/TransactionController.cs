@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BudgetBuddy.Api.Helpers;
-using BudgetBuddy.Api.ViewModels;
 using BudgetBuddy.Api.ViewModels.V1;
 using BudgetBuddy.Application.UseCases.Transactions.CreateTransaction;
 using BudgetBuddy.Application.UseCases.Transactions.DeleteTransaction;

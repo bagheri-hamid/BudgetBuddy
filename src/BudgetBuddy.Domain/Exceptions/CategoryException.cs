@@ -1,5 +1,4 @@
-﻿using BudgetBuddy.Domain.Enums;
-using BudgetBuddy.Domain.Extensions;
+﻿using BudgetBuddy.Domain.Extensions;
 
 namespace BudgetBuddy.Domain.Exceptions;
 

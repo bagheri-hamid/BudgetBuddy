@@ -4,11 +4,11 @@ namespace BudgetBuddy.Domain.Common;
 
 public abstract class BaseEntity
 {
-    [Key] public Guid Id { get; set; } = Guid.NewGuid();
+    [Key] public Guid Id { get; private set; } = Guid.NewGuid();
 
-    [Required] public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    [Required] public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; protected set; }
 
-    [Required] public bool IsDeleted { get; set; } = false;
+    [Required] public bool IsDeleted { get; protected set; }
 }
