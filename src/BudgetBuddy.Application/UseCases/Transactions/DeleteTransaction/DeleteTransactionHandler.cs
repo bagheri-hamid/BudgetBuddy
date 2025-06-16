@@ -17,12 +17,15 @@ public class DeleteTransactionHandler(IUnitOfWork unitOfWork, ITokenHelper token
             var transaction = await transactionRepository.FindOneAsync(
                 t => t.Id == request.Id && t.UserId == tokenHelper.GetUserId(),
                 cancellationToken,
-                t => t.Account);
+                t => t.Account
+            );
+
             if (transaction == null)
                 throw new ObjectNotFoundException("Transaction");
-            
+
+            transaction.Account.RevertTransaction(transaction);
             transaction.Delete();
-            
+
             await unitOfWork.CommitAsync();
         }
         catch (Exception e)

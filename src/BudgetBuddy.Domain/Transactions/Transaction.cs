@@ -17,7 +17,7 @@ public class Transaction : BaseEntity
     [MaxLength(256)] public string? Description { get; private set; }
 
     [Required] public TransactionType Type { get; private set; }
-    
+
     [Required] public DateTime Date { get; private set; }
 
     // Foreign keys
@@ -31,13 +31,15 @@ public class Transaction : BaseEntity
     [ForeignKey("UserId")] public User User { get; set; }
 
     // Private constructor for EF core
-    private Transaction() { }
+    private Transaction()
+    {
+    }
 
     public Transaction(Money amount, string? description, TransactionType type, DateTime date, Guid categoryId, Guid accountId, Guid userId)
     {
         if (amount < 1)
             throw new CanNotBeLessThanZeroException();
-        
+
         Amount = amount;
         Description = description;
         Type = type;
@@ -46,7 +48,7 @@ public class Transaction : BaseEntity
         AccountId = accountId;
         UserId = userId;
     }
-    
+
     public void Update(Money amount, string? description, TransactionType type, DateTime date, Guid categoryId)
     {
         if (amount < 1)
@@ -63,7 +65,6 @@ public class Transaction : BaseEntity
     public void Delete()
     {
         IsDeleted = true;
-        Account.UpdateBalance(Amount, Type);
         UpdatedAt = DateTime.UtcNow;
     }
 }

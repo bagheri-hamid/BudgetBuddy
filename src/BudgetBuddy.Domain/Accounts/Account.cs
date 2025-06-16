@@ -6,6 +6,7 @@ using BudgetBuddy.Domain.Exceptions;
 using BudgetBuddy.Domain.Transactions;
 using BudgetBuddy.Domain.Users;
 using BudgetBuddy.Domain.ValueObjects;
+using BudgetBuddy.Domain.Transactions;
 
 namespace BudgetBuddy.Domain.Accounts;
 
@@ -70,6 +71,20 @@ public class Account : BaseEntity
 
         // Recalculating account balance
         Balance = type == TransactionType.Income ? (Balance + newTransactionAmount) : (Balance - newTransactionAmount);
+        UpdatedAt = DateTime.UtcNow;
+    }
+    
+    /// <summary>
+    /// Reverts the financial impact of a given transaction on the account's balance.
+    /// </summary>
+    /// <param name="transaction">The transaction to be reverted.</param>
+    public void RevertTransaction(Transaction transaction)
+    {
+        // If the transaction was an Income, subtracting its amount reverses it.
+        // If it was an Expense, adding its amount back reverses it.
+        Balance = transaction.Type == TransactionType.Income
+            ? Balance - transaction.Amount
+            : Balance + transaction.Amount;
         UpdatedAt = DateTime.UtcNow;
     }
 }
