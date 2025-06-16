@@ -4,12 +4,13 @@ using BudgetBuddy.Domain.Categories;
 using BudgetBuddy.Domain.Common;
 using BudgetBuddy.Domain.Exceptions;
 using BudgetBuddy.Domain.Users;
+using BudgetBuddy.Domain.ValueObjects;
 
 namespace BudgetBuddy.Domain.Budgets;
 
 public class Budget : BaseEntity
 {
-    [Required] public long Amount { get; private set; }
+    [Required] public Money Amount { get; private set; }
     [MaxLength(256)] public string? Description { get; private set; }
     [Required] public DateTime StartDate { get; private set; }
     [Required] public DateTime EndDate { get; private set; }
@@ -27,7 +28,7 @@ public class Budget : BaseEntity
     {
     }
 
-    public Budget(long amount, string? description, DateTime startDate, DateTime endDate, Guid categoryId, Guid userId)
+    public Budget(Money amount, string? description, DateTime startDate, DateTime endDate, Guid categoryId, Guid userId)
     {
         if (amount < 1) throw new CanNotBeLessThanZeroException();
         if (startDate == default || endDate == default || endDate <= startDate) throw new InvalidDateException();
@@ -40,7 +41,7 @@ public class Budget : BaseEntity
         UserId = userId;
     }
 
-    public void Update(long amount, string? description, DateTime startDate, DateTime endDate)
+    public void Update(Money amount, string? description, DateTime startDate, DateTime endDate)
     {
         if (amount < 1) throw new CanNotBeLessThanZeroException();
         if (startDate == default || endDate == default || endDate <= startDate) throw new InvalidDateException();

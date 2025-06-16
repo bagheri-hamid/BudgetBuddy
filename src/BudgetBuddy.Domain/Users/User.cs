@@ -5,6 +5,7 @@ using BudgetBuddy.Domain.Categories;
 using BudgetBuddy.Domain.Common;
 using BudgetBuddy.Domain.Exceptions;
 using BudgetBuddy.Domain.Transactions;
+using BudgetBuddy.Domain.ValueObjects;
 
 namespace BudgetBuddy.Domain.Users;
 
@@ -14,7 +15,7 @@ public class User : BaseEntity
 
     [MaxLength(128)] public string? FullName { get; private set; }
 
-    [Required] [MaxLength(320)] public string Email { get; private set; }
+    [Required] [MaxLength(320)] public Email Email { get; private set; }
 
     [Required] [MaxLength(128)] public string Password { get; private set; }
 
@@ -24,17 +25,18 @@ public class User : BaseEntity
     public ICollection<Budget> Budgets { get; set; }
     public ICollection<Account> Accounts { get; set; }
 
+    // Private constructor for EF Core
     private User()
     {
     }
 
-    public User(string username, string? fullName, string email, string password)
+    public User(string username, string? fullName, Email email, string password)
     {
         if (string.IsNullOrWhiteSpace(username)) throw new InvalidUsernameInSignUpException();
 
         Username = username.Trim();
         FullName = fullName?.Trim();
-        Email = email.ToLowerInvariant();
+        Email = email;
         Password = password;
     }
 }

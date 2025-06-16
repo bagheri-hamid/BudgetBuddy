@@ -6,12 +6,13 @@ using BudgetBuddy.Domain.Common;
 using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Exceptions;
 using BudgetBuddy.Domain.Users;
+using BudgetBuddy.Domain.ValueObjects;
 
 namespace BudgetBuddy.Domain.Transactions;
 
 public class Transaction : BaseEntity
 {
-    [Required] public long Amount { get; private set; }
+    [Required] public Money Amount { get; private set; }
 
     [MaxLength(256)] public string? Description { get; private set; }
 
@@ -32,7 +33,7 @@ public class Transaction : BaseEntity
     // Private constructor for EF core
     private Transaction() { }
 
-    public Transaction(long amount, string? description, TransactionType type, DateTime date, Guid categoryId, Guid accountId, Guid userId)
+    public Transaction(Money amount, string? description, TransactionType type, DateTime date, Guid categoryId, Guid accountId, Guid userId)
     {
         if (amount < 1)
             throw new CanNotBeLessThanZeroException();
@@ -46,7 +47,7 @@ public class Transaction : BaseEntity
         UserId = userId;
     }
     
-    public void Update(long amount, string? description, TransactionType type, DateTime date, Guid categoryId)
+    public void Update(Money amount, string? description, TransactionType type, DateTime date, Guid categoryId)
     {
         if (amount < 1)
             throw new CanNotBeLessThanZeroException();

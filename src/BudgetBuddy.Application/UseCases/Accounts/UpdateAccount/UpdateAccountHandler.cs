@@ -1,6 +1,7 @@
 using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Accounts;
 using BudgetBuddy.Domain.Exceptions;
+using BudgetBuddy.Domain.ValueObjects;
 using MediatR;
 using IAccountRepository = BudgetBuddy.Domain.Accounts.IAccountRepository;
 
@@ -32,7 +33,7 @@ public class UpdateAccountHandler(IAccountRepository accountRepository, ITokenHe
         if (account == null)
             throw new ObjectNotFoundException("Account");
         
-        account.Update(request.Name, request.Type, request.Balance);
+        account.Update(request.Name, request.Type, new Money(request.Balance));
         
         await accountRepository.SaveChangesAsync(cancellationToken);
 

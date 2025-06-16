@@ -4,6 +4,7 @@ using BudgetBuddy.Domain.Budgets;
 using BudgetBuddy.Domain.Categories;
 using BudgetBuddy.Domain.Transactions;
 using BudgetBuddy.Domain.Users;
+using BudgetBuddy.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBuddy.Infrastructure.Persistence.DbContext;
@@ -15,7 +16,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Budget> Budgets { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -73,5 +74,31 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany(c => c.Budgets)
             .HasForeignKey(b => b.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // .: VALUE OBJECTS CONFIGURATIONS :.
+
+        modelBuilder.Entity<Account>(builder =>
+        {
+            builder.Property(t => t.Balance)
+                .HasConversion(money => money.Amount, dbValue => new Money(dbValue));
+        });
+
+        modelBuilder.Entity<Transaction>(builder =>
+        {
+            builder.Property(t => t.Amount)
+                .HasConversion(money => money.Amount, dbValue => new Money(dbValue));
+        });
+
+        modelBuilder.Entity<Budget>(builder =>
+        {
+            builder.Property(b => b.Amount)
+                .HasConversion(money => money.Amount, dbValue => new Money(dbValue));
+        });
+
+        modelBuilder.Entity<User>(builder =>
+        {
+            builder.Property(u => u.Email)
+                .HasConversion(email => email.Value, dbValue => Email.Create(dbValue));
+        });
     }
 }

@@ -5,6 +5,7 @@ using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Exceptions;
 using BudgetBuddy.Domain.Transactions;
 using BudgetBuddy.Domain.Users;
+using BudgetBuddy.Domain.ValueObjects;
 
 namespace BudgetBuddy.Domain.Accounts;
 
@@ -12,7 +13,7 @@ public class Account : BaseEntity
 {
     [Required] [MaxLength(100)] public string Name { get; private set; } = null!;
     [Required] [MaxLength(100)] public string Type { get; private set; } = null!; // Checking, Savings, Credit Card, etc.
-    public long Balance { get; private set; } = 0;
+    public Money Balance { get; private set; }
 
     // Foreign key
     [Required] public Guid UserId { get; private set; }
@@ -26,7 +27,7 @@ public class Account : BaseEntity
     {
     }
 
-    public Account(string name, string type, long balance, Guid userId)
+    public Account(string name, string type, Money balance, Guid userId)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new EmptyFiledException(nameof(Name));
         if (string.IsNullOrWhiteSpace(type)) throw new EmptyFiledException(nameof(Type));
@@ -37,21 +38,21 @@ public class Account : BaseEntity
         Balance = balance;
         UserId = userId;
     }
-    
-    public void Update(string name, string type, long balance)
+
+    public void Update(string name, string type, Money balance)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new EmptyFiledException(nameof(Name));
         if (string.IsNullOrWhiteSpace(type)) throw new EmptyFiledException(nameof(Type));
-        
+
         Name = name;
         Type = type;
         Balance = balance;
         UpdatedAt = DateTime.UtcNow;
     }
-    
-    public void UpdateBalance(long amount, TransactionType type)
+
+    public void UpdateBalance(Money amount, TransactionType type)
     {
-        Balance += type == TransactionType.Income ? amount : -amount;
+        Balance = (type == TransactionType.Income) ? (Balance + amount) : (Balance - amount);
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -60,15 +61,15 @@ public class Account : BaseEntity
         UpdatedAt = DateTime.UtcNow;
         IsDeleted = true;
     }
-    
+
     // Recalculating account's balance when transaction updates
-    public void RecalculateBalance(TransactionType type, long oldTransactionAmount, long newTransactionAmount)
+    public void RecalculateBalance(TransactionType type, Money oldTransactionAmount, Money newTransactionAmount)
     {
         // Reverting account balance
-        Balance += type == TransactionType.Income ? -oldTransactionAmount : oldTransactionAmount;
-        
+        Balance = type == TransactionType.Income ? (Balance - oldTransactionAmount) : (Balance + oldTransactionAmount);
+
         // Recalculating account balance
-        Balance += type == TransactionType.Income ? newTransactionAmount : -newTransactionAmount;
+        Balance = type == TransactionType.Income ? (Balance + newTransactionAmount) : (Balance - newTransactionAmount);
         UpdatedAt = DateTime.UtcNow;
     }
 }

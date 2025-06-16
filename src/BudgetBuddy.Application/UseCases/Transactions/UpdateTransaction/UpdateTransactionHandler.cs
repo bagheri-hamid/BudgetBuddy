@@ -1,5 +1,6 @@
 ﻿using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Exceptions;
+using BudgetBuddy.Domain.ValueObjects;
 using MediatR;
 
 namespace BudgetBuddy.Application.UseCases.Transactions.UpdateTransaction;
@@ -27,9 +28,11 @@ public class UpdateTransactionHandler(IUnitOfWork unitOfWork, ITokenHelper token
             if (transaction == null)
                 throw new ObjectNotFoundException("Transaction");
 
-            transaction.Update(request.Amount, request.Description, request.Type, request.Date, request.CategoryId);
+            var requestAmountValueObject = new Money(request.Amount);
+            
+            transaction.Update(requestAmountValueObject, request.Description, request.Type, request.Date, request.CategoryId);
 
-            transaction.Account.RecalculateBalance(transaction.Type, transaction.Amount, request.Amount);
+            transaction.Account.RecalculateBalance(transaction.Type, transaction.Amount, requestAmountValueObject);
 
             await unitOfWork.CommitAsync();
             return transaction;

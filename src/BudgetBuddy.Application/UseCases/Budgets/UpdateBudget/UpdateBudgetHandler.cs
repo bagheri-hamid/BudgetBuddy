@@ -1,6 +1,7 @@
 ﻿using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Budgets;
 using BudgetBuddy.Domain.Exceptions;
+using BudgetBuddy.Domain.ValueObjects;
 using MediatR;
 
 namespace BudgetBuddy.Application.UseCases.Budgets.UpdateBudget;
@@ -20,7 +21,7 @@ public class UpdateBudgetHandler(IBudgetRepository budgetRepository, ITokenHelpe
         if (budget == null)
             throw new ObjectNotFoundException("Budget");
 
-        budget.Update(request.Amount, request.Description, request.StartDate, request.EndDate);
+        budget.Update(new Money(request.Amount), request.Description, request.StartDate, request.EndDate);
 
         await budgetRepository.SaveChangesAsync(cancellationToken);
 

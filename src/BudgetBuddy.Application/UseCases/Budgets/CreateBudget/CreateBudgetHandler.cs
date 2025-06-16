@@ -2,6 +2,7 @@
 using BudgetBuddy.Domain.Budgets;
 using BudgetBuddy.Domain.Categories;
 using BudgetBuddy.Domain.Exceptions;
+using BudgetBuddy.Domain.ValueObjects;
 using MediatR;
 
 namespace BudgetBuddy.Application.UseCases.Budgets.CreateBudget;
@@ -23,7 +24,7 @@ public class CreateBudgetHandler(
         if (!await categoryRepository.IsExistsAsync(c => c.Id == request.CategoryId, cancellationToken))
             throw new ObjectNotFoundException("Category");
 
-        var budget = new Budget(request.Amount, request.Description, request.StartDate, request.EndDate, request.CategoryId, tokenHelper.GetUserId());
+        var budget = new Budget(new Money(request.Amount), request.Description, request.StartDate, request.EndDate, request.CategoryId, tokenHelper.GetUserId());
         await budgetRepository.AddAsync(budget, cancellationToken);
         await budgetRepository.SaveChangesAsync(cancellationToken);
 

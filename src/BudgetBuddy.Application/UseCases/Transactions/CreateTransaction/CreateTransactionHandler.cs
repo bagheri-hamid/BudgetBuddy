@@ -1,6 +1,7 @@
 ﻿using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Exceptions;
 using BudgetBuddy.Domain.Transactions;
+using BudgetBuddy.Domain.ValueObjects;
 using MediatR;
 
 namespace BudgetBuddy.Application.UseCases.Transactions.CreateTransaction;
@@ -32,7 +33,7 @@ public class CreateTransactionHandler(
             if (!await unitOfWork.Repository<Domain.Categories.Category>().IsExistsAsync(c => c.Id == request.CategoryId, cancellationToken))
                 throw new ObjectNotFoundException(nameof(Domain.Categories.Category));
 
-            var transaction = new Transaction(request.Amount, request.Description, request.Type, request.Date, request.CategoryId, request.AccountId, userId);
+            var transaction = new Transaction(new Money(request.Amount), request.Description, request.Type, request.Date, request.CategoryId, request.AccountId, userId);
             
             account.UpdateBalance(transaction.Amount, transaction.Type);
 

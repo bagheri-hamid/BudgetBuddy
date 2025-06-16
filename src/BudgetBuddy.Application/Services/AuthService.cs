@@ -2,12 +2,12 @@ using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Dtos.Auth;
 using BudgetBuddy.Domain.Exceptions;
 using BudgetBuddy.Domain.Users;
+using BudgetBuddy.Domain.ValueObjects;
 
 namespace BudgetBuddy.Application.Services;
 
 public class AuthService(
     IUserRepository userRepository,
-    IEmailValidator emailValidator,
     IPasswordHasher passwordHasher,
     IJwtService jwtService
 ) : IAuthService, IScopedDependency
@@ -21,16 +21,15 @@ public class AuthService(
         // Input validation
         if (string.IsNullOrWhiteSpace(username))
             throw new InvalidUsernameInSignUpException();
-
-        if (!emailValidator.IsValid(email))
-            throw new InvalidEmailFormatException();
-
+        
         // Check existing users
         var existingUser = await userRepository.FindOneAsync(user => user.Username == username);
         if (existingUser is not null)
             throw new UsernameHasAlreadyTakenException();
 
-        var existingEmail = await userRepository.FindOneAsync(user => user.Email == email);
+        var emailValueObject = Email.Create(email);
+        
+        var existingEmail = await userRepository.FindOneAsync(user => user.Email == emailValueObject);
         if (existingEmail is not null)
             throw new EmailHasBeenRegisteredException();
 
@@ -42,7 +41,7 @@ public class AuthService(
         var passwordHash = passwordHasher.Hash(password);
 
         // Create user entity
-        var user = new User(username.Trim(), fullName?.Trim(), email.ToLowerInvariant(), passwordHash);
+        var user = new User(username.Trim(), fullName?.Trim(), emailValueObject, passwordHash);
 
         await userRepository.AddAsync(user);
         await userRepository.SaveChangesAsync();

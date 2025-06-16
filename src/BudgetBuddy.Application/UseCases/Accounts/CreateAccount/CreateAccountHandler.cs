@@ -1,5 +1,6 @@
 using BudgetBuddy.Application.Interfaces;
 using BudgetBuddy.Domain.Exceptions;
+using BudgetBuddy.Domain.ValueObjects;
 using MediatR;
 using IAccountRepository = BudgetBuddy.Domain.Accounts.IAccountRepository;
 
@@ -23,7 +24,7 @@ public class CreateAccountHandler(IAccountRepository accountRepository, ITokenHe
         if (string.IsNullOrWhiteSpace(request.Type))
             throw new EmptyFiledException(nameof(Domain.Accounts.Account.Type));
 
-        var account = new Domain.Accounts.Account(request.Name, request.Type, request.Balance, tokenHelper.GetUserId());
+        var account = new Domain.Accounts.Account(request.Name, request.Type, new Money(request.Balance), tokenHelper.GetUserId());
         
         await accountRepository.AddAsync(account, cancellationToken);
         await accountRepository.SaveChangesAsync(cancellationToken);
