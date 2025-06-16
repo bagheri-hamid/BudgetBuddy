@@ -15,7 +15,11 @@ namespace BudgetBuddy.Application.UseCases.Categories.CreateCategory;
 ///    with the provided name, parent category ID, and user ID.
 /// 3. Returning the newly created <see cref="Category"/> entity.
 /// </remarks>
-public class CreateCategoryHandler(ICategoryRepository categoryRepository, ITokenHelper tokenHelper) : IRequestHandler<CreateCategoryCommand, Category>
+public class CreateCategoryHandler(
+    ICategoryRepository categoryRepository,
+    ITokenHelper tokenHelper,
+    IUnitOfWork unitOfWork
+) : IRequestHandler<CreateCategoryCommand, Category>
 {
     public async Task<Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
@@ -31,10 +35,10 @@ public class CreateCategoryHandler(ICategoryRepository categoryRepository, IToke
         }
 
         var category = new Category(request.Name, request.ParentCategoryId, tokenHelper.GetUserId());
-        
+
         await categoryRepository.AddAsync(category, cancellationToken);
-        await categoryRepository.SaveChangesAsync(cancellationToken);
-        
+        await unitOfWork.CompleteAsync(cancellationToken);
+
         return category;
     }
 }

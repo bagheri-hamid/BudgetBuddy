@@ -5,7 +5,11 @@ using MediatR;
 
 namespace BudgetBuddy.Application.UseCases.Budgets.DeleteBudget;
 
-public class DeleteBudgetHandler(IBudgetRepository budgetRepository, ITokenHelper tokenHelper) : IRequestHandler<DeleteBudgetCommand, Unit>
+public class DeleteBudgetHandler(
+    IBudgetRepository budgetRepository,
+    ITokenHelper tokenHelper,
+    IUnitOfWork unitOfWork
+) : IRequestHandler<DeleteBudgetCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteBudgetCommand request, CancellationToken cancellationToken)
     {
@@ -13,11 +17,11 @@ public class DeleteBudgetHandler(IBudgetRepository budgetRepository, ITokenHelpe
 
         if (budget == null)
             throw new ObjectNotFoundException("Budget");
-        
+
         budget.Delete();
 
-        await budgetRepository.SaveChangesAsync(cancellationToken);
-        
+        await unitOfWork.CompleteAsync(cancellationToken);
+
         return Unit.Value;
     }
 }

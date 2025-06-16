@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBuddy.Infrastructure.Persistence.Repositories;
 
-public class Repository<T>(ApplicationDbContext context) : Application.Interfaces.IRepository<T> where T : BaseEntity
+public class Repository<T>(ApplicationDbContext context) : IRepository<T> where T : BaseEntity
 {
     protected readonly DbSet<T> DbSet = context.Set<T>();
     
@@ -119,15 +119,6 @@ public class Repository<T>(ApplicationDbContext context) : Application.Interface
     public void RemoveRange(IEnumerable<T> entities)
     {
         DbSet.RemoveRange(entities);
-    }
-    
-    /// <summary>
-    /// Saves all changes made to the database context.
-    /// </summary>
-    /// <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
-    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        await context.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>

@@ -6,7 +6,11 @@ using MediatR;
 
 namespace BudgetBuddy.Application.UseCases.Budgets.UpdateBudget;
 
-public class UpdateBudgetHandler(IBudgetRepository budgetRepository, ITokenHelper tokenHelper) : IRequestHandler<UpdateBudgetCommand, Unit>
+public class UpdateBudgetHandler(
+    IBudgetRepository budgetRepository,
+    ITokenHelper tokenHelper,
+    IUnitOfWork unitOfWork
+) : IRequestHandler<UpdateBudgetCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateBudgetCommand request, CancellationToken cancellationToken)
     {
@@ -23,7 +27,7 @@ public class UpdateBudgetHandler(IBudgetRepository budgetRepository, ITokenHelpe
 
         budget.Update(new Money(request.Amount), request.Description, request.StartDate, request.EndDate);
 
-        await budgetRepository.SaveChangesAsync(cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
 
         return Unit.Value;
     }

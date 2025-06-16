@@ -9,7 +9,8 @@ namespace BudgetBuddy.Application.Services;
 public class AuthService(
     IUserRepository userRepository,
     IPasswordHasher passwordHasher,
-    IJwtService jwtService
+    IJwtService jwtService,
+    IUnitOfWork  unitOfWork
 ) : IAuthService, IScopedDependency
 {
     public async Task<SignUpResponse> SignUp(
@@ -44,7 +45,7 @@ public class AuthService(
         var user = new User(username.Trim(), fullName?.Trim(), emailValueObject, passwordHash);
 
         await userRepository.AddAsync(user);
-        await userRepository.SaveChangesAsync();
+        await unitOfWork.CompleteAsync();
 
         var token = jwtService.GenerateToken(user);
         

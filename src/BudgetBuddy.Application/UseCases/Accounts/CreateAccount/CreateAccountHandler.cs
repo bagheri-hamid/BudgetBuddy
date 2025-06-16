@@ -14,7 +14,11 @@ namespace BudgetBuddy.Application.UseCases.Accounts.CreateAccount;
 /// 1. Extracting the current user's ID using the <see cref="ITokenHelper"/>.
 /// 2. Returning the newly created <see cref="Domain.Accounts.Account"/> entity.
 /// </remarks>
-public class CreateAccountHandler(IAccountRepository accountRepository, ITokenHelper tokenHelper) : IRequestHandler<CreateAccountCommand, Domain.Accounts.Account>
+public class CreateAccountHandler(
+    IAccountRepository accountRepository,
+    ITokenHelper tokenHelper,
+    IUnitOfWork unitOfWork
+) : IRequestHandler<CreateAccountCommand, Domain.Accounts.Account>
 {
     public async Task<Domain.Accounts.Account> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
@@ -25,10 +29,10 @@ public class CreateAccountHandler(IAccountRepository accountRepository, ITokenHe
             throw new EmptyFiledException(nameof(Domain.Accounts.Account.Type));
 
         var account = new Domain.Accounts.Account(request.Name, request.Type, new Money(request.Balance), tokenHelper.GetUserId());
-        
+
         await accountRepository.AddAsync(account, cancellationToken);
-        await accountRepository.SaveChangesAsync(cancellationToken);
-        
+        await unitOfWork.CompleteAsync(cancellationToken);
+
         return account;
     }
 }

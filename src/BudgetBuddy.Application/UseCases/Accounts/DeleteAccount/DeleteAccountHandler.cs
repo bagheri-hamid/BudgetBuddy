@@ -5,7 +5,11 @@ using MediatR;
 
 namespace BudgetBuddy.Application.UseCases.Accounts.DeleteAccount;
 
-public class DeleteAccountHandler(IAccountRepository accountRepository, ITokenHelper tokenHelper) : IRequestHandler<DeleteAccountCommand, Unit>
+public class DeleteAccountHandler(
+    IAccountRepository accountRepository,
+    ITokenHelper tokenHelper,
+    IUnitOfWork unitOfWork
+) : IRequestHandler<DeleteAccountCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
     {
@@ -13,11 +17,11 @@ public class DeleteAccountHandler(IAccountRepository accountRepository, ITokenHe
 
         if (account == null)
             throw new ObjectNotFoundException("Account");
-        
+
         account.Delete();
-        
-        await accountRepository.SaveChangesAsync(cancellationToken);
-        
+
+        await unitOfWork.CompleteAsync(cancellationToken);
+
         return Unit.Value;
     }
 }

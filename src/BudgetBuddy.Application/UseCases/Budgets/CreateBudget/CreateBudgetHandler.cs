@@ -10,7 +10,8 @@ namespace BudgetBuddy.Application.UseCases.Budgets.CreateBudget;
 public class CreateBudgetHandler(
     IBudgetRepository budgetRepository,
     ITokenHelper tokenHelper,
-    ICategoryRepository categoryRepository
+    ICategoryRepository categoryRepository,
+    IUnitOfWork unitOfWork
 ) : IRequestHandler<CreateBudgetCommand, Budget>
 {
     public async Task<Budget> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
@@ -26,7 +27,7 @@ public class CreateBudgetHandler(
 
         var budget = new Budget(new Money(request.Amount), request.Description, request.StartDate, request.EndDate, request.CategoryId, tokenHelper.GetUserId());
         await budgetRepository.AddAsync(budget, cancellationToken);
-        await budgetRepository.SaveChangesAsync(cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
 
         return budget;
     }

@@ -16,7 +16,7 @@ public interface IUnitOfWork : IDisposable
     /// <summary>
     /// Saves changes to the database.
     /// </summary>
-    Task<int> CompleteAsync();
+    Task<int> CompleteAsync(CancellationToken cancellationToken = default);
     
     /// <summary>
     /// Begins a new database transaction.

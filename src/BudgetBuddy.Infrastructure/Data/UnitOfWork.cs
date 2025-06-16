@@ -7,20 +7,20 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BudgetBuddy.Infrastructure.Data;
 
-public class UnitOfWork(ApplicationDbContext context, IServiceProvider serviceProvider) : IUnitOfWork, IScopedDependency
+public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork, IScopedDependency
 {
     private readonly ConcurrentDictionary<string, object> _repositories = new();
     private IDbContextTransaction? _currentTransaction;
     private bool _disposed;
     
-    public Application.Interfaces.IRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity
+    public IRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity
     {
         var type = typeof(TEntity).Name;
 
         // Try to get the repository from the cache
         if (_repositories.TryGetValue(type, out var repository))
         {
-            return (Application.Interfaces.IRepository<TEntity>)repository;
+            return (IRepository<TEntity>)repository;
         }
 
         // Create a new repository if not found in cache
@@ -29,7 +29,7 @@ public class UnitOfWork(ApplicationDbContext context, IServiceProvider servicePr
         return newRepository;
     }
     
-    public async Task<int> CompleteAsync() => await context.SaveChangesAsync();
+    public async Task<int> CompleteAsync(CancellationToken cancellationToken = default) => await context.SaveChangesAsync(cancellationToken);
     
     public async Task<IDbContextTransaction> BeginTransactionAsync()
     {
