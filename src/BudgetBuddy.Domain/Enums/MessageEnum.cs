@@ -54,4 +54,7 @@ public enum MessageEnum  // Central message catalog
     
     [Description("Invalid date!")]
     InvalidDate,
+    
+    [Description("One or more validation errors occurred!")]
+    ValidationError, 
 } 

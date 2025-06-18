@@ -14,6 +14,10 @@ public class ExceptionHandlerMiddleware(RequestDelegate next)
         {
             await next(context);
         }
+        catch (ValidationException e)
+        {
+            await HandleValidationException(context, e);
+        }
         catch (DomainException e)
         {
             await HandleDomainException(context, e);
@@ -24,6 +28,15 @@ public class ExceptionHandlerMiddleware(RequestDelegate next)
         }
     }
 
+    private static Task HandleValidationException(HttpContext context, ValidationException exception)
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = exception.StatusCode;
+
+        var response = new Response<object?>(exception.StatusCode, exception.Message, false, exception.Errors);
+        return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+    }
+    
     private static Task HandleDomainException(HttpContext context, DomainException exception)
     {
         context.Response.ContentType = "application/json";
