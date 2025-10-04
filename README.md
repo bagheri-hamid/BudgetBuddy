@@ -60,7 +60,7 @@ Follow these instructions to get the project up and running on your local machin
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/budgetbuddy.git](https://github.com/your-username/budgetbuddy.git)
+    git clone [https://github.com/bagheri-hamid/budgetbuddy.git](https://github.com/bagheri-hamid/budgetbuddy.git)
     cd budgetbuddy
     ```
 
@@ -103,4 +103,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) fi
 * Hamid Bagheri – https://linkedin.com/in/bagheri-hamid – HamidBagheri9846@gmail.com
 * Samaneh Alimohamadi - https://linkedin.com/in/samaneh-alimohammadi-33b7a6248 - a.smneh79@gmail.com
 
-Project Link: [https://github.com/bagheri-hamid/budgetbuddy](https://github.com/your-username/budgetbuddy)
+Project Link: [https://github.com/bagheri-hamid/budgetbuddy](https://github.com/bagheri-hamid/budgetbuddy)
