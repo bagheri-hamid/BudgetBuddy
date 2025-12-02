@@ -21,12 +21,12 @@ public class Transaction : BaseEntity
     [Required] public DateTime Date { get; private set; }
 
     // Foreign keys
-    [Required] public Guid CategoryId { get; private set; }
+    public Guid? CategoryId { get; private set; }
     [Required] public Guid AccountId { get; private set; }
     [Required] public Guid UserId { get; private set; }
 
     // Navigation properties
-    [ForeignKey("CategoryId")] public Category Category { get; set; }
+    [ForeignKey("CategoryId")] public Category? Category { get; set; }
     [ForeignKey("AccountId")] public Account Account { get; set; }
     [ForeignKey("UserId")] public User User { get; set; }
 
@@ -35,7 +35,7 @@ public class Transaction : BaseEntity
     {
     }
 
-    public Transaction(Money amount, string? description, TransactionType type, DateTime date, Guid categoryId, Guid accountId, Guid userId)
+    public Transaction(Money amount, string? description, TransactionType type, DateTime date, Guid? categoryId, Guid accountId, Guid userId)
     {
         if (amount < 1)
             throw new CanNotBeLessThanZeroException();

@@ -5,6 +5,7 @@ using BudgetBuddy.Application.UseCases.Transactions.CreateTransaction;
 using BudgetBuddy.Application.UseCases.Transactions.DeleteTransaction;
 using BudgetBuddy.Application.UseCases.Transactions.GetAllTransactions;
 using BudgetBuddy.Application.UseCases.Transactions.GetTransactionById;
+using BudgetBuddy.Application.UseCases.Transactions.TransferMoney;
 using BudgetBuddy.Application.UseCases.Transactions.UpdateTransaction;
 using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Extensions;
@@ -56,5 +57,12 @@ public class TransactionController(IMediator mediator, IMapper mapper) : Authori
         var transactionViewModel = mapper.Map<TransactionViewModel>(transaction);
         
         return ResponseHelper.CreateSuccessResponse(transactionViewModel);
+    }
+    
+    [HttpPost("Transfer")]
+    public async Task<IActionResult> Transfer([FromBody] TransferMoneyCommand command)
+    {
+        await mediator.Send(command);
+        return ResponseHelper.CreateResponse<object>(201, MessageEnum.CreatedSuccessfully.GetDescription(), true);
     }
 }

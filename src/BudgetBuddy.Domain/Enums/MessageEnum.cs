@@ -57,4 +57,7 @@ public enum MessageEnum  // Central message catalog
     
     [Description("One or more validation errors occurred!")]
     ValidationError, 
+    
+    [Description("Destination Account cannot be the same as Source Account.")]
+    TransferDestinationIsSameWithSource
 } 
